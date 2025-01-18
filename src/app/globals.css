@@ -1,0 +1,250 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Fonts */
+@font-face {
+  font-family: "Urbanist", serif;
+  src: url("../assets/fonts/GeneralSans-Variable.woff2");
+}
+
+:root {
+  --font-general-sans: "General Sans", sans-serif;
+
+  /* Custom Colors */
+  --accent-green: #3bb5a5;
+  --primary-gray: #0000008f;
+  --primary-blue: #1b71a7;
+  --primary-red: #db2424;
+  --primary-green: #65b545;
+  --primary-yellow: #f5bd14;
+
+  --light-gray: #e8e8e8;
+  --demin-primary-50: #e9f2f6;
+  --demin-primary-100: #b8d3e3;
+
+  /*  */
+
+  --primary: #fe5858;
+}
+
+* {
+  font-family: "Urbanist", serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide Scrollbar */
+.scroll-hide {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.scroll-hide::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.border-red {
+  @apply border border-red-500;
+}
+
+/* --------- Custom Utilities ----------- */
+
+.flex-center-start {
+  @apply flex items-center justify-start;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-center-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-start-between {
+  @apply flex items-start justify-between;
+}
+
+.flex-center-start {
+  @apply flex items-center justify-start;
+}
+
+.flex-start-start {
+  @apply flex items-start justify-start;
+}
+
+/* Ant design override */
+.ant-modal-close-icon * {
+  fill: black !important;
+}
+
+.ant-table-cell {
+  font-weight: 500;
+}
+
+.ant-form-item-label label {
+  font-weight: 500;
+}
+
+.ant-popconfirm-description {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+
+.ant-tabs-tab-btn {
+  font-weight: 500;
+}
+
+.ant-input {
+  font-weight: 450 !important;
+}
+
+.ant-otp input {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+}
+
+.ant-table-scroll-horizontal {
+  border-radius: 8px !important;
+}
+
+.dashboard-table .ant-table-thead tr th {
+  background: #fe5858 !important;
+}
+
+.ant-modal {
+  border-radius: 8px;
+  width: 650px !important;
+}
+
+.ant-modal-content {
+  background: #fff1ec !important;
+}
+
+.ant-upload-drag {
+  border: 0 !important;
+}
+.ant-upload-btn {
+  background: #fe5858;
+}
+
+.ant-form {
+  width: 100%;
+}
+
+.ant-form input {
+  height: 43px;
+}
+
+.ant-form .ant-select-selector {
+  height: 43px !important;
+}
+
+.ant-form .ant-form-item-additional {
+  display: none !important;
+}
+
+.common-btn {
+  background: #fe5858 !important;
+  height: 43px !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  padding-inline: 20px !important;
+  font-size: 16px !important;
+}
+
+input::placeholder {
+  color: #01010150 !important;
+  font-size: 16px !important;
+}
+
+.ant-picker-suffix {
+  color: #010101 !important;
+}
+
+.post-pagination svg {
+  color: white !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-top: 6px;
+}
+
+.post-pagination .ant-pagination-disabled svg {
+  color: rgba(255, 255, 255, 0.493) !important;
+}
+.post-pagination .ant-pagination-item-ellipsis {
+  color: rgb(255, 255, 255) !important;
+}
+.post-pagination .ant-pagination-item:hover {
+  background: #010101 !important;
+  color: white !important;
+}
+.post-pagination .ant-pagination-item:hover a {
+  color: white !important;
+}
+
+.ant-modal-header {
+  background: #fff1ec !important;
+}
+
+.reject-modal .ant-modal-header .ant-modal-title {
+  color: #db2424 !important;
+}
+
+.small-modal .ant-modal-content {
+  width: 430px !important;
+  margin: 0 auto;
+}
+
+.edit-profile label {
+  color: white !important;
+}
+
+.edit-profile input {
+  color: white !important;
+  border: 1px solid white !important;
+  background: #fe5858 !important;
+}
+
+.ant-tabs-tab-btn {
+  font-size: 18px;
+  color: white;
+}
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important;
+}
+.change-password-form {
+  width: 550px;
+  margin: 0 auto;
+}
+.change-password-form label {
+  color: white !important;
+}
+.change-password-form .ant-input-outlined {
+  color: white !important;
+  padding: 0 10px !important;
+  background: #fe5858 !important;
+  border: 1px solid white !important;
+  height: 44px !important;
+}
+
+.change-password-form .ant-input-outlined input::placeholder {
+  color: #ffffffc7 !important;
+}
+
+.change-password-form svg {
+  color: #fff !important;
+}
+
+.login-form label {
+  color: white !important;
+}
+
+.ant-otp {
+  width: 100%;
+}
