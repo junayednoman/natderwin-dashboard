@@ -48,7 +48,7 @@ export default function HeaderContainer({ collapsed, setCollapsed }) {
 
         <Link href="/admin/notification" className="!leading-none relative">
           {/* Notification dot indicator */}
-          <div className="bg-[#64B445] absolute -top-1.5 -right-1 size-3 rounded-full" />
+          <div className="bg-[#FE5858] absolute -top-1.5 -right-1 size-3 rounded-full" />
 
           <Bell fill="#1C1B1F" stroke="#1C1B1F" size={22} />
         </Link>
@@ -63,7 +63,7 @@ export default function HeaderContainer({ collapsed, setCollapsed }) {
             alt="Admin avatar"
             width={52}
             height={52}
-            className="rounded-full border-2 p-0.5 border-primary-green group-hover:border"
+            className="rounded-full border-2 p-0.5 border-primary-red group-hover:border"
           />
 
           <h4 className="text-lg font-semibold">Justina</h4>

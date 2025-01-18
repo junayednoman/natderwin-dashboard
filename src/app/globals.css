@@ -248,3 +248,7 @@ input::placeholder {
 .ant-otp {
   width: 100%;
 }
+
+.ant-menu {
+  padding-bottom: 30px !important;
+}

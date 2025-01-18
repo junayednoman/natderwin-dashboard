@@ -121,7 +121,7 @@ const SidebarContainer = ({ collapsed }) => {
         maxHeight: "100vh",
         overflow: "auto",
       }}
-      className="scroll-hide"
+      className="scroll-hide pb-8"
     >
       <div className="mb-6 flex flex-col justify-center items-center gap-y-5">
         <Link href={"/"}>
