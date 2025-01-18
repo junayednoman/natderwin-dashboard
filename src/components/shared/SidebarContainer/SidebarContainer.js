@@ -11,11 +11,15 @@ import { ScrollText } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { SlidersVertical } from "lucide-react";
 import { Podcast } from "lucide-react";
-import { CircleUser } from "lucide-react";
 import { House } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { ChartBarStacked } from "lucide-react";
+import { MessageSquareWarning } from "lucide-react";
+import { Users } from "lucide-react";
+import { Star } from "lucide-react";
+import { Receipt } from "lucide-react";
 
 const SidebarContainer = ({ collapsed }) => {
   // const dispatch = useDispatch();
@@ -42,17 +46,17 @@ const SidebarContainer = ({ collapsed }) => {
     },
     {
       key: "categories",
-      icon: <CircleUser size={21} strokeWidth={2} />,
+      icon: <ChartBarStacked size={21} strokeWidth={2} />,
       label: <Link href={"/admin/categories"}>Category</Link>,
     },
     {
       key: "reports",
-      icon: <CircleDollarSign size={21} strokeWidth={2} />,
+      icon: <MessageSquareWarning size={21} strokeWidth={2} />,
       label: <Link href={"/admin/reports"}>Report Content</Link>,
     },
     {
       key: "account-details",
-      icon: <CircleDollarSign size={21} strokeWidth={2} />,
+      icon: <Users size={21} strokeWidth={2} />,
       label: <Link href={"/admin/account-details"}>Account Details</Link>,
     },
     {
@@ -62,7 +66,7 @@ const SidebarContainer = ({ collapsed }) => {
     },
     {
       key: "cashout-requests",
-      icon: <CircleDollarSign size={21} strokeWidth={2} />,
+      icon: <Receipt size={21} strokeWidth={2} />,
       label: <Link href={"/admin/cashout-requests"}>Cashout Requests</Link>,
     },
     {
@@ -74,7 +78,7 @@ const SidebarContainer = ({ collapsed }) => {
     },
     {
       key: "Manage Points",
-      icon: <Shapes size={21} strokeWidth={2} />,
+      icon: <Star size={21} strokeWidth={2} />,
       label: <Link href={"/admin/manage-points"}>Manage Points</Link>,
     },
     {
