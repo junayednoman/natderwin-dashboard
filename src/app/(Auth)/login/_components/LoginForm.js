@@ -23,7 +23,9 @@ export default function LoginForm() {
   return (
     <div className="">
       <div className="w-[600px] mx-auto flex flex-col items-center justify-center h-screen">
-        <h4 className="text-4xl font-semibold text-white text-center mb-4">Login</h4>
+        <h4 className="text-4xl font-semibold text-white text-center mb-4">
+          Login
+        </h4>
         <FormWrapper
           onSubmit={onLoginSubmit}
           resolver={zodResolver(loginSchema)}
@@ -37,14 +39,16 @@ export default function LoginForm() {
               size="large"
               className="!h-12"
             />
-            <UInput
-              name="password"
-              label="Password"
-              type="password"
-              placeholder="*************"
-              size="large"
-              className="!h-12 !mb-0"
-            />
+            <div className="mt-10">
+              <UInput
+                name="password"
+                label="Password"
+                type="password"
+                placeholder="*************"
+                size="large"
+                className="!h-12 !mb-0"
+              />
+            </div>
             <div className="flex items-center justify-between gap-6 mt-10 text-base">
               <Checkbox className="text-base" size="" onChange={handleRemember}>
                 Remember Me

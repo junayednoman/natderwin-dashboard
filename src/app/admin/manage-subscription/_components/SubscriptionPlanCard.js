@@ -6,7 +6,7 @@ export default function SubscriptionPlanCard({ data, setShowEditPlanModal }) {
   };
 
   return (
-    <div className="bg-light-red p-4 rounded-lg">
+    <div className="bg-light-red p-4 rounded-lg flex flex-col justify-between">
       <h5 className="text-2xl font-bold text-[#8C6D17]">{data.title}</h5>
       <div className="flex items-center gap-1 mt-5">
         <span className="text-xl font-semibold">{data.duration}</span> -{" "}

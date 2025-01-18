@@ -50,7 +50,7 @@ export default function SubscriptionsContainer() {
         </button>
       </div>
       <div className="p-8 bg-primary-red rounded-lg mb-6">
-        <section className="grid grid-cols-1 gap-4">
+        <section className="grid grid-cols-2 gap-4">
           {subscriptionPlans.map((data, idx) => (
             <SubscriptionPlanCard
               key={idx}
