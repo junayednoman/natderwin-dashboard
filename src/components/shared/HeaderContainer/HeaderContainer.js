@@ -2,21 +2,18 @@
 
 import { Button } from "antd";
 import { Bell } from "lucide-react";
-import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import userAvatar from "@/assets/images/user-avatar.png";
 import { usePathname } from "next/navigation";
 import { Layout } from "antd";
 import { AlignJustify } from "lucide-react";
-import { Badge } from "antd";
-import { Search } from "lucide-react";
 const { Header } = Layout;
 
 export default function HeaderContainer({ collapsed, setCollapsed }) {
   const pathname = usePathname();
-  const navbarTitle = pathname.split("/admin")[1];
-
+  const navbarTitle = pathname.split("/admin")[1].split("/")[1];
+  console.log("navbarTitle", navbarTitle.split("/")[1]);
   return (
     <Header
       style={{

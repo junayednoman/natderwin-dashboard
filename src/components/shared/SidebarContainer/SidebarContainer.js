@@ -6,7 +6,6 @@ import icon from "@/assets/logos/icon.svg";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { CircleDollarSign } from "lucide-react";
-import { Shapes } from "lucide-react";
 import { ScrollText } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { SlidersVertical } from "lucide-react";
