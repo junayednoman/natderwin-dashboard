@@ -20,6 +20,18 @@ import { Users } from "lucide-react";
 import { Star } from "lucide-react";
 import { Receipt } from "lucide-react";
 
+import dashboardIcon from "@/assets/images/dashboard.svg";
+import categoryIcon from "@/assets/images/category.svg";
+import reportIcon from "@/assets/images/report.svg";
+import usersIcon from "@/assets/images/users.svg";
+import earningIcon from "@/assets/images/earnings.svg";
+import cashoutIcon from "@/assets/images/cashout.svg";
+import subscriptionsIcon from "@/assets/images/subscriptions.svg";
+import pointsIcon from "@/assets/images/points.svg";
+// import subscriptionIcon from "@/assets/images/subscriptions.svg";
+import settingIcon from "@/assets/images/settings.svg";
+import logoutIcon from "@/assets/images/logout.svg";
+
 const SidebarContainer = ({ collapsed }) => {
   // const dispatch = useDispatch();
   const router = useRouter();
@@ -40,49 +52,49 @@ const SidebarContainer = ({ collapsed }) => {
   const navLinks = [
     {
       key: "dashboard",
-      icon: <House size={21} strokeWidth={2} />,
+      icon: <Image src={dashboardIcon} alt="dashboard" />,
       label: <Link href={"/admin/dashboard"}>Dashboard</Link>,
     },
     {
       key: "categories",
-      icon: <ChartBarStacked size={21} strokeWidth={2} />,
+      icon: <Image src={categoryIcon} alt="category" />,
       label: <Link href={"/admin/categories"}>Category</Link>,
     },
     {
       key: "reports",
-      icon: <MessageSquareWarning size={21} strokeWidth={2} />,
+      icon: <Image src={reportIcon} alt="report" />,
       label: <Link href={"/admin/reports"}>Report Content</Link>,
     },
     {
       key: "account-details",
-      icon: <Users size={21} strokeWidth={2} />,
+      icon: <Image src={usersIcon} alt="users" />,
       label: <Link href={"/admin/account-details"}>Account Details</Link>,
     },
     {
       key: "earnings",
-      icon: <CircleDollarSign size={21} strokeWidth={2} />,
+      icon: <Image src={earningIcon} alt="earnings" />,
       label: <Link href={"/admin/earnings"}>Earnings</Link>,
     },
     {
       key: "cashout-requests",
-      icon: <Receipt size={21} strokeWidth={2} />,
+      icon: <Image src={cashoutIcon} alt="cashout" />,
       label: <Link href={"/admin/cashout-requests"}>Cashout Requests</Link>,
     },
     {
       key: "manage-subscription",
-      icon: <Podcast size={21} strokeWidth={2} />,
+      icon: <Image src={subscriptionsIcon} alt="subscription" />,
       label: (
         <Link href={"/admin/manage-subscription"}>Manage Subscriptions</Link>
       ),
     },
     {
       key: "Manage Points",
-      icon: <Star size={21} strokeWidth={2} />,
+      icon: <Image src={pointsIcon} alt="points" />,
       label: <Link href={"/admin/manage-points"}>Manage Points</Link>,
     },
     {
       key: "settings",
-      icon: <SlidersVertical size={21} strokeWidth={2} />,
+      icon: <Image src={settingIcon} alt="settings" />,
       label: "Settings",
       children: [
         {
@@ -99,7 +111,7 @@ const SidebarContainer = ({ collapsed }) => {
     },
     {
       key: "logout",
-      icon: <LogOut size={21} strokeWidth={2} />,
+      icon: <Image src={logoutIcon} alt="logout" />,
       label: <Link href="/login">Logout</Link>,
     },
   ];
