@@ -58,7 +58,7 @@ export default function ReportContentDetails() {
       dataIndex: "post_link",
     },
     {
-      title: "Reporting Reason",
+      title: "Reason for Report",
       dataIndex: "reason",
     },
     {

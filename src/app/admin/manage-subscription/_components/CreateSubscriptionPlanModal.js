@@ -31,7 +31,7 @@ export default function CreateSubscriptionPlanModal({ open, setOpen }) {
           <UInput
             className={"!mb-3"}
             name="name"
-            label="Name"
+            label="Subscription Name"
             placeholder="Enter subscription plan name"
           />
           <UInput
@@ -44,7 +44,7 @@ export default function CreateSubscriptionPlanModal({ open, setOpen }) {
             <UTextArea
               minRows={5}
               name="description"
-              label="Description"
+              label="Short Description"
               placeholder="Enter description"
             />
           </div>
