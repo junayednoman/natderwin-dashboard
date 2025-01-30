@@ -3,7 +3,7 @@ import NextTopLoader from "nextjs-toploader";
 export default function NextJsTopLoader() {
   return (
     <NextTopLoader
-      color="linear-gradient(to bottom, #65b545, #1b71a7)"
+      color="#FE5858"
       initialPosition={0.08}
       crawlSpeed={200}
       height={3}
@@ -11,7 +11,7 @@ export default function NextJsTopLoader() {
       showSpinner={true}
       easing="ease"
       speed={200}
-      shadow="0 0 10px #65b545,0 0 5px #000"
+      zIndex={1600}
     />
   );
 }
