@@ -12,18 +12,18 @@ import {
 } from "recharts";
 
 const data = [
-  { month: "Jan", earning: 1200 },
-  { month: "Feb", earning: 1402 },
-  { month: "Mar", earning: 1525 },
-  { month: "Apr", earning: 1222 },
-  { month: "May", earning: 1553 },
-  { month: "Jun", earning: 1634 },
-  { month: "Jul", earning: 1923 },
-  { month: "Aug", earning: 1324 },
-  { month: "Sep", earning: 1834 },
-  { month: "Oct", earning: 1256 },
-  { month: "Nov", earning: 1634 },
-  { month: "Dec", earning: 2105 },
+  { month: "Jan", user: 1200 },
+  { month: "Feb", user: 1402 },
+  { month: "Mar", user: 1525 },
+  { month: "Apr", user: 1222 },
+  { month: "May", user: 1553 },
+  { month: "Jun", user: 1634 },
+  { month: "Jul", user: 1923 },
+  { month: "Aug", user: 1324 },
+  { month: "Sep", user: 1834 },
+  { month: "Oct", user: 1256 },
+  { month: "Nov", user: 1634 },
+  { month: "Dec", user: 2105 },
 ];
 
 const UserOverview = () => {
@@ -85,7 +85,7 @@ const UserOverview = () => {
           />
 
           <Tooltip
-            formatter={(value) => [`Monthly Earning: $${value}`]}
+            formatter={(value) => [`Monthly Joined Users: ${value}`]}
             contentStyle={{
               color: "#010101",
               fontWeight: "500",
@@ -98,7 +98,7 @@ const UserOverview = () => {
           <Area
             activeDot={{ fill: "#1B70A6" }}
             type="monotone"
-            dataKey="earning"
+            dataKey="user"
             strokeWidth={0}
             stroke="blue"
             fill="url(#color)"

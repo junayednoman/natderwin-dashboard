@@ -14,29 +14,24 @@ import { useState } from "react";
 
 // dummy data
 const data = [
-  { month: "Jan", user: 120 },
-  { month: "Feb", user: 140 },
-  { month: "Mar", user: 152 },
-  { month: "Apr", user: 122 },
-  { month: "May", user: 153 },
-  { month: "Jun", user: 164 },
-  { month: "Jul", user: 193 },
-  { month: "Aug", user: 134 },
-  { month: "Sep", user: 184 },
-  { month: "Oct", user: 126 },
-  { month: "Nov", user: 164 },
-  { month: "Dec", user: 100 },
+  { month: "Jan", earning: 120 },
+  { month: "Feb", earning: 140 },
+  { month: "Mar", earning: 152 },
+  { month: "Apr", earning: 122 },
+  { month: "May", earning: 153 },
+  { month: "Jun", earning: 164 },
+  { month: "Jul", earning: 193 },
+  { month: "Aug", earning: 134 },
+  { month: "Sep", earning: 184 },
+  { month: "Oct", earning: 126 },
+  { month: "Nov", earning: 164 },
+  { month: "Dec", earning: 100 },
 ];
 
 const EarningOverview = () => {
   const [selectedYear, setSelectedYear] = useState("2024");
-  const [selectedUserType, setSelectedUserType] = useState("customer");
-
   const handleChange = (value) => {
     setSelectedYear(value);
-  };
-  const handleUserChange = (value) => {
-    setSelectedUserType(value);
   };
 
   return (
@@ -84,7 +79,7 @@ const EarningOverview = () => {
           <YAxis axisLine={false} tickLine={false} tickMargin={20} />
 
           <Tooltip
-            formatter={(value) => [`Monthly Users Joined: ${value}`]}
+            formatter={(value) => [`Monthly Earning: $${value}`]}
             contentStyle={{
               color: "#010101",
               fontWeight: "500",
@@ -105,7 +100,7 @@ const EarningOverview = () => {
             barSize={18}
             radius={5}
             background={false}
-            dataKey="user"
+            dataKey="earning"
             fill="#FE5858"
           />
         </BarChart>
