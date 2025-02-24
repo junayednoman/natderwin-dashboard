@@ -19,7 +19,7 @@ import { Trash2 } from "lucide-react";
 // Dummy table Data
 const data = Array.from({ length: 15 }).map((_, inx) => ({
   key: inx + 1,
-  name: "Kutta",
+  name: "Doogy",
   userImg: "https://i.postimg.cc/nhkGjrMQ/Bullly-kutta.jpg",
   date: "11 oct 24, 11.10PM",
   status: "Active",
