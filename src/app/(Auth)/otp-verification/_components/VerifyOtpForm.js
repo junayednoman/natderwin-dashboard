@@ -1,13 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schema/authSchema";
-import FormWrapper from "@/components/Form/FormWrapper";
-import UInput from "@/components/Form/UInput";
+import { loginSchema } from "../../../../schema/authSchema";
+import FormWrapper from "../../../../components/Form/FormWrapper";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MoveLeft } from "lucide-react";
-import UOtpInput from "@/components/Form/UOtpInput";
+import UOtpInput from "../../../../components/Form/UOtpInput";
 
 export default function VerifyOtpForm() {
   const router = useRouter();

@@ -1,9 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schema/authSchema";
-import FormWrapper from "@/components/Form/FormWrapper";
-import UInput from "@/components/Form/UInput";
+import { loginSchema } from "../../../../schema/authSchema";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import UInput from "../../../../components/Form/UInput";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MoveLeft } from "lucide-react";

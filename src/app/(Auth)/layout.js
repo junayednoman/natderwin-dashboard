@@ -1,5 +1,5 @@
 import React from "react";
-import image from "@/assets/images/login-side.png";
+import image from "../../assets/images/login-side.png";
 import Image from "next/image";
 
 export default function AuthLayout({ children }) {

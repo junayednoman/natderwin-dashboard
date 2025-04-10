@@ -1,7 +1,8 @@
-import { RootState } from '@/app/store';
+
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 import { logOut, setUser } from '../features/authSlice';
+import { RootState } from '../../app/store';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
