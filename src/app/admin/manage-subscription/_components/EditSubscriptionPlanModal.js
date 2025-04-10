@@ -1,12 +1,12 @@
 "use client";
 
-import FormWrapper from "@/components/Form/FormWrapper";
-import UInput from "@/components/Form/UInput";
-import UTextArea from "@/components/Form/UTextArea";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import UInput from "../../../../components/Form/UInput";
+import UTextArea from "../../../../components/Form/UTextArea";
 import { Modal } from "antd";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createSubscriptionSchema } from "@/schema/subscriptionSchema";
-import CustomConfirm from "@/components/CustomConfirm/CustomConfirm";
+import { createSubscriptionSchema } from "../../../../schema/subscriptionSchema";
+import CustomConfirm from "../../../../components/CustomConfirm/CustomConfirm";
 
 export default function EditSubscriptionPlanModal({ open, setOpen }) {
   const onSubmit = (data) => {

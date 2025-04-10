@@ -1,5 +1,5 @@
-import CustomConfirm from "@/components/CustomConfirm/CustomConfirm";
-import MiniProfile from "@/components/MiniProfile/MiniProfile";
+import CustomConfirm from "../../../components/CustomConfirm/CustomConfirm";
+import MiniProfile from "../../../components/MiniProfile/MiniProfile";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 

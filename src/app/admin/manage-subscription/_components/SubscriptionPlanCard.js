@@ -1,4 +1,4 @@
-import CustomConfirm from "@/components/CustomConfirm/CustomConfirm";
+import CustomConfirm from "../../../../components/CustomConfirm/CustomConfirm";
 
 export default function SubscriptionPlanCard({ data, setShowEditPlanModal }) {
   const handleDeletePackage = () => {

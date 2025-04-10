@@ -1,6 +1,6 @@
 "use client";
-import FormWrapper from "@/components/Form/FormWrapper";
-import UTextArea from "@/components/Form/UTextArea";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import UTextArea from "../../../../components/Form/UTextArea";
 import { Modal } from "antd";
 
 export default function RejectModal({ open, setOpen }) {

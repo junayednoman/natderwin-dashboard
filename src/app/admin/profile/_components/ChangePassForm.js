@@ -1,10 +1,10 @@
 "use client";
 
-import FormWrapper from "@/components/Form/FormWrapper";
-import UInput from "@/components/Form/UInput";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import UInput from "../../../../components/Form/UInput";
 import {
   changePasswordSchema,
-} from "@/schema/profileSchema";
+} from "../../../../schema/profileSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function ChangePassForm() {

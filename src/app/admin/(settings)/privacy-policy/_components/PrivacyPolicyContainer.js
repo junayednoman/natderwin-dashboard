@@ -1,7 +1,7 @@
 "use client";
 
-import FormWrapper from "@/components/Form/FormWrapper";
-import UTextEditor from "@/components/Form/UTextEditor";
+import FormWrapper from "../../../../../components/Form/FormWrapper";
+import UTextEditor from "../../../../../components/Form/UTextEditor";
 
 export default function PrivacyPolicyContainer() {
   return (

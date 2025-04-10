@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal } from "antd";
-import userImage from "@/assets/images/user-avatar-lg.png";
+import userImage from "../../assets/images/user-avatar-lg.png";
 import Image from "next/image";
 import { Tag } from "antd";
 

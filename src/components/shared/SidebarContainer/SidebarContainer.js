@@ -1,36 +1,24 @@
 "use client";
-
 import "./Sidebar.css";
-import logo from "@/assets/logos/logo.png";
-import icon from "@/assets/logos/icon.svg";
+import logo from "../../../assets/logos/logo.png";
+import icon from "../../../assets/logos/icon.svg";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { CircleDollarSign } from "lucide-react";
 import { ScrollText } from "lucide-react";
-import { LogOut } from "lucide-react";
-import { SlidersVertical } from "lucide-react";
-import { Podcast } from "lucide-react";
-import { House } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChartBarStacked } from "lucide-react";
-import { MessageSquareWarning } from "lucide-react";
-import { Users } from "lucide-react";
-import { Star } from "lucide-react";
-import { Receipt } from "lucide-react";
-
-import dashboardIcon from "@/assets/images/dashboard.svg";
-import categoryIcon from "@/assets/images/category.svg";
-import reportIcon from "@/assets/images/report.svg";
-import usersIcon from "@/assets/images/users.svg";
-import earningIcon from "@/assets/images/earnings.svg";
-import cashoutIcon from "@/assets/images/cashout.svg";
-import subscriptionsIcon from "@/assets/images/subscriptions.svg";
-import pointsIcon from "@/assets/images/points.svg";
-// import subscriptionIcon from "@/assets/images/subscriptions.svg";
-import settingIcon from "@/assets/images/settings.svg";
-import logoutIcon from "@/assets/images/logout.svg";
+import dashboardIcon from "../../../assets/images/dashboard.svg";
+import categoryIcon from "../../../assets/images/category.svg";
+import reportIcon from "../../../assets/images/report.svg";
+import usersIcon from "../../../assets/images/users.svg";
+import earningIcon from "../../../assets/images/earnings.svg";
+import cashoutIcon from "../../../assets/images/cashout.svg";
+import subscriptionsIcon from "../../../assets/images/subscriptions.svg";
+import pointsIcon from "../../../assets/images/points.svg";
+// import subscriptionIcon from "../../../assets/images/subscriptions.svg";
+import settingIcon from "../../../assets/images/settings.svg";
+import logoutIcon from "../../../assets/images/logout.svg";
 
 const SidebarContainer = ({ collapsed }) => {
   // const dispatch = useDispatch();

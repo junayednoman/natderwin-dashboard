@@ -3,7 +3,7 @@
 import { Table } from "antd";
 import { Tooltip } from "antd";
 import { ConfigProvider } from "antd";
-import userImage from "@/assets/images/user-avatar-lg.png";
+import userImage from "../../../assets/images/user-avatar-lg.png";
 import { Eye } from "lucide-react";
 import { Filter } from "lucide-react";
 import Image from "next/image";

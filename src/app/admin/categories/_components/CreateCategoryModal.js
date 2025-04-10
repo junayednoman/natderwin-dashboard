@@ -1,9 +1,9 @@
 "use client";
 import { Button, Modal } from "antd";
-import UUpload from "@/components/Form/UUpload";
-import UInput from "@/components/Form/UInput";
-import FormWrapper from "@/components/Form/FormWrapper";
-import USelect from "@/components/Form/USelect";
+import UUpload from "../../../../components/Form/UUpload";
+import UInput from "../../../../components/Form/UInput";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import USelect from "../../../../components/Form/USelect";
 import { useState } from "react";
 
 export default function CreateCategoryModal({ open, setOpen }) {

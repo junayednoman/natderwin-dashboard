@@ -2,7 +2,7 @@
 
 import RecentUserTable from "./RecentUserTable";
 import UserOverview from "./UserOverview";
-import CustomCountUp from "@/components/CustomCountUp/CustomCountUp";
+import CustomCountUp from "../../../../components/CustomCountUp/CustomCountUp";
 import EarningOverview from "./EarningOverview";
 import { Users } from "lucide-react";
 import { CircleDollarSign } from "lucide-react";

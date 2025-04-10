@@ -4,7 +4,7 @@ import { Input, Table } from "antd";
 import { Tooltip } from "antd";
 import { ConfigProvider } from "antd";
 import { Search } from "lucide-react";
-import userImage from "@/assets/images/user-avatar-lg.png";
+import userImage from "../../../assets/images/user-avatar-lg.png";
 import { Eye } from "lucide-react";
 import { Filter } from "lucide-react";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import { Tag } from "antd";
 import { UserX } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import CustomConfirm from "@/components/CustomConfirm/CustomConfirm";
+import CustomConfirm from "../../../components/CustomConfirm/CustomConfirm";
 
 // Dummy Data
 const data = Array.from({ length: 15 }).map((_, inx) => ({

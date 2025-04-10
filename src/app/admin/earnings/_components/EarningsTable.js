@@ -1,7 +1,7 @@
 "use client";
 
 import { ConfigProvider, Table } from "antd";
-import userImage from "@/assets/images/user-avatar-lg.png";
+import userImage from "../../../../assets/images/user-avatar-lg.png";
 import Image from "next/image";
 import { Filter } from "lucide-react";
 import { Tooltip } from "antd";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Tag } from "antd";
 import EarningModal from "./EarningModal";
 import { DatePicker } from "antd";
-import CustomCountUp from "@/components/CustomCountUp/CustomCountUp";
+import CustomCountUp from "../../../../components/CustomCountUp/CustomCountUp";
 import { Repeat } from "lucide-react";
 import { CircleDollarSign } from "lucide-react";
 

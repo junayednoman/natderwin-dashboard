@@ -8,7 +8,7 @@ import { Eye } from "lucide-react";
 import { useState } from "react";
 import { Filter } from "lucide-react";
 import Image from "next/image";
-import CustomConfirm from "@/components/CustomConfirm/CustomConfirm";
+import CustomConfirm from "../../../../components/CustomConfirm/CustomConfirm";
 import { message } from "antd";
 import { Tag } from "antd";
 import CreateCategoryModal from "./CreateCategoryModal";

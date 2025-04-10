@@ -1,4 +1,4 @@
-import starIcon from "@/assets/images/star.svg";
+import starIcon from "../../../../assets/images/star.svg";
 import Image from "next/image";
 
 export default function PointCard({ data, setShowModal }) {

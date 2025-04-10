@@ -1,14 +1,13 @@
 "use client";
 import { Button, Modal } from "antd";
-import UUpload from "@/components/Form/UUpload";
-import UInput from "@/components/Form/UInput";
-import FormWrapper from "@/components/Form/FormWrapper";
-import USelect from "@/components/Form/USelect";
+import UUpload from "../../../../components/Form/UUpload";
+import UInput from "../../../../components/Form/UInput";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import USelect from "../../../../components/Form/USelect";
 import { useState } from "react";
 import Image from "next/image";
 import { CircleX } from "lucide-react";
-import CustomConfirm from "@/components/CustomConfirm/CustomConfirm";
-import { Trash2 } from "lucide-react";
+import CustomConfirm from "../../../../components/CustomConfirm/CustomConfirm";
 
 export default function EditCategoryModal({ open, setOpen }) {
   const [image, setImage] = useState(

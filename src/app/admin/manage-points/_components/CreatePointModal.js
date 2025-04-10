@@ -1,10 +1,10 @@
 "use client";
 
-import FormWrapper from "@/components/Form/FormWrapper";
-import UInput from "@/components/Form/UInput";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import UInput from "../../../../components/Form/UInput";
 import { Button, Modal } from "antd";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createSubscriptionSchema } from "@/schema/subscriptionSchema";
+import { createSubscriptionSchema } from "../../../../schema/subscriptionSchema";
 
 export default function CreatePointModal({ open, setOpen }) {
   const onSubmit = (data) => {

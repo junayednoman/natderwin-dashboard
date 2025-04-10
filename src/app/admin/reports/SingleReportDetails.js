@@ -1,5 +1,5 @@
 "use client";
-import MiniProfile from "@/components/MiniProfile/MiniProfile";
+import MiniProfile from "../../../components/MiniProfile/MiniProfile";
 import { Button, Checkbox } from "antd";
 import Image from "next/image";
 

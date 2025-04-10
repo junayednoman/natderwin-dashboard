@@ -1,10 +1,9 @@
 "use client";
 
-import FormWrapper from "@/components/Form/FormWrapper";
-import UInput from "@/components/Form/UInput";
-import { editProfileSchema } from "@/schema/profileSchema";
+import FormWrapper from "../../../../components/Form/FormWrapper";
+import UInput from "../../../../components/Form/UInput";
+import { editProfileSchema } from "../../../../schema/profileSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "antd";
 
 export default function EditProfileForm() {
   const handleSubmit = (data) => {
@@ -29,12 +28,7 @@ export default function EditProfileForm() {
           <UInput name="name" label="Name" type="text" />
 
           <div className="!my-10">
-            <UInput
-              name="email"
-              label="Email"
-              type="email"
-              disabled
-            />
+            <UInput name="email" label="Email" type="email" disabled />
           </div>
           <UInput name="contact" label="Contact" type="contact" />
 

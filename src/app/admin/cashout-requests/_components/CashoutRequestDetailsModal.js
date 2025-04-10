@@ -2,7 +2,7 @@
 
 import { Modal } from "antd";
 import Image from "next/image";
-import userImage from "@/assets/images/user-avatar-lg.png";
+import userImage from "../../../../assets/images/user-avatar-lg.png";
 
 export default function CashoutRequestModal({
   open,

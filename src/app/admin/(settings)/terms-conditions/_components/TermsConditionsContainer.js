@@ -1,9 +1,7 @@
 "use client";
 
-import FormWrapper from "@/components/Form/FormWrapper";
-import UTextEditor from "@/components/Form/UTextEditor";
-import { Button } from "antd";
-import { Edit } from "lucide-react";
+import FormWrapper from "../../../../../components/Form/FormWrapper";
+import UTextEditor from "../../../../../components/Form/UTextEditor";
 
 export default function TermsConditionsContainer() {
   return (

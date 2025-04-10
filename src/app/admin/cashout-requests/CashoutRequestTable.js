@@ -1,7 +1,7 @@
 "use client";
 
 import { ConfigProvider, Table } from "antd";
-import userImage from "@/assets/images/user-avatar-lg.png";
+import userImage from "../../../assets/images/user-avatar-lg.png";
 import Image from "next/image";
 import { useState } from "react";
 import CashoutRequestModal from "./_components/CashoutRequestDetailsModal";

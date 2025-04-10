@@ -1,7 +1,7 @@
 "use client";
 
-import HeaderContainer from "@/components/shared/HeaderContainer/HeaderContainer";
-import SidebarContainer from "@/components/shared/SidebarContainer/SidebarContainer";
+import HeaderContainer from "../../components/shared/HeaderContainer/HeaderContainer";
+import SidebarContainer from "../../components/shared/SidebarContainer/SidebarContainer";
 import { useMediaQuery } from "@react-hook/media-query";
 import { Layout } from "antd";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import userAvatar from "@/assets/images/user-avatar-lg.png";
+import userAvatar from "../../../../assets/images/user-avatar-lg.png";
 import NotificationCard from "./NotificationCard";
 import { Button } from "antd";
 
