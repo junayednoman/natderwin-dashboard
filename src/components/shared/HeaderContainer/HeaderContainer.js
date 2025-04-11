@@ -1,16 +1,21 @@
 "use client";
-
 import { Button } from "antd";
 import { Bell } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import userAvatar from "../../../assets/images/user-avatar.png";
 import { usePathname } from "next/navigation";
 import { Layout } from "antd";
 import { AlignJustify } from "lucide-react";
+import { useGetProfileQuery } from "../../../redux/api/profileApi";
+import { selectUser } from "../../../redux/features/authSlice";
+import { useAppSelector } from "../../../redux/hooks/hooks";
 const { Header } = Layout;
 
 export default function HeaderContainer({ collapsed, setCollapsed }) {
+  const user = useAppSelector(selectUser);
+  const { data } = useGetProfileQuery("", { skip: !user });
+  const admin = data?.data;
+
   const pathname = usePathname();
   const navbarTitle = pathname.split("/admin")[1].split("/")[1];
   return (
@@ -58,14 +63,14 @@ export default function HeaderContainer({ collapsed, setCollapsed }) {
           className="flex items-center gap-x-2 text-black hover:text-primary-blue group"
         >
           <Image
-            src={userAvatar}
+            src={admin?.image}
             alt="Admin avatar"
             width={52}
             height={52}
             className="rounded-full border-2 p-0.5 border-primary-red group-hover:border"
           />
 
-          <h4 className="text-lg font-semibold">Justina</h4>
+          <h4 className="text-lg font-semibold">{admin?.name}</h4>
         </Link>
       </div>
     </Header>

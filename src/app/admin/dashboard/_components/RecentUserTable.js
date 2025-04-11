@@ -2,7 +2,7 @@
 
 import { ConfigProvider } from "antd";
 import { Table } from "antd";
-import { UserX } from "lucide-react";
+import { ListFilter, UserX } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Filter } from "lucide-react";
 import Image from "next/image";
@@ -11,9 +11,11 @@ import { Tooltip } from "antd";
 import { Tag } from "antd";
 import { useState } from "react";
 import ProfileModal from "../../../../components/SharedModals/ProfileModal";
+import { useGetAllUsersQuery } from "../../../../redux/api/userApi";
+import { format } from "date-fns";
 
 // Dummy Data
-const data = Array.from({ length: 5 }).map((_, inx) => ({
+const users = Array.from({ length: 5 }).map((_, inx) => ({
   key: inx + 1,
   name: "Justina",
   userImg: userImage,
@@ -25,6 +27,11 @@ const data = Array.from({ length: 5 }).map((_, inx) => ({
 
 const RecentUserTable = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const params = {
+    fields: "name email image type createdAt",
+  };
+  const { data, isLoading } = useGetAllUsersQuery(params);
+  const users = data?.data?.data;
 
   // =============== Table columns ===============
   const columns = [
@@ -39,7 +46,7 @@ const RecentUserTable = () => {
       render: (value, record) => (
         <div className="flex-center-start gap-x-2">
           <Image
-            src={record.userImg}
+            src={record.image || userImage} // Fallback image
             alt="User avatar"
             width={40}
             height={40}
@@ -56,7 +63,6 @@ const RecentUserTable = () => {
     {
       title: "Account Type",
       dataIndex: "type",
-
       filters: [
         {
           text: "Subscriber",
@@ -68,21 +74,23 @@ const RecentUserTable = () => {
         },
       ],
       filterIcon: () => (
-        <Filter
+        <ListFilter
           size={18}
           color="#fff"
           className="flex justify-start items-start"
         />
       ),
-      onFilter: (value, record) => record.accountType.indexOf(value) === 0,
-
-      render: (value) => <Tag className="!text-sm">{value}</Tag>,
+      onFilter: (value, record) => {
+        // Ensure comparison is case-insensitive
+        return record?.type?.toLowerCase() === value.toLowerCase() || false;
+      },
+      render: (value) => <Tag className="!text-sm capitalize">{value}</Tag>,
     },
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
+      render: (value) => <p>{format(new Date(value), "dd MMM yyyy")}</p>,
     },
-
     {
       title: "Action",
       render: () => (
@@ -92,7 +100,7 @@ const RecentUserTable = () => {
               <Eye color="#010101" size={22} />
             </button>
           </Tooltip>
-
+  
           <Tooltip title="Block User">
             <button>
               <UserX color="#F16365" size={22} />
@@ -102,7 +110,8 @@ const RecentUserTable = () => {
       ),
     },
   ];
-
+  
+  
   return (
     <ConfigProvider
       theme={{
@@ -120,8 +129,9 @@ const RecentUserTable = () => {
         <Table
           className="rounded-lg dashboard-table"
           style={{ overflowX: "auto" }}
+          loading={isLoading}
           columns={columns}
-          dataSource={data}
+          dataSource={users}
           scroll={{ x: "100%" }}
         ></Table>
       </div>

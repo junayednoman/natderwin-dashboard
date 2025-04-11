@@ -11,25 +11,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useState } from "react";
-
-// dummy data
-const data = [
-  { month: "Jan", earning: 120 },
-  { month: "Feb", earning: 140 },
-  { month: "Mar", earning: 152 },
-  { month: "Apr", earning: 122 },
-  { month: "May", earning: 153 },
-  { month: "Jun", earning: 164 },
-  { month: "Jul", earning: 193 },
-  { month: "Aug", earning: 134 },
-  { month: "Sep", earning: 184 },
-  { month: "Oct", earning: 126 },
-  { month: "Nov", earning: 164 },
-  { month: "Dec", earning: 100 },
-];
+import { useGetEarningOverviewQuery } from "../../../../redux/api/summaryApi";
+import { years } from "../../../../data/global.data";
 
 const EarningOverview = () => {
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  // fetch data
+  const params = {
+    year: selectedYear,
+  };
+  const { data } = useGetEarningOverviewQuery(params);
+  const growth = data?.data?.growth;
+  const overview = data?.data?.data;
   const handleChange = (value) => {
     setSelectedYear(value);
   };
@@ -41,25 +35,27 @@ const EarningOverview = () => {
 
         <div className="space-x-3 flex items-center gap-1">
           <h1 className="font-medium bg-white rounded-lg px-3 py-1.5 text-sm border">
-            Monthly Growth: <span className="font-semibold">35.80%</span>
+            Monthly Growth:{" "}
+            <span
+              className={`ml-2 font-semibold ${
+                growth > 0 ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {growth}%
+            </span>
           </h1>
           <Select
             value={selectedYear}
             style={{ width: 120 }}
             onChange={handleChange}
-            options={[
-              { value: "2024", label: "2024" },
-              { value: "2023", label: "2023" },
-              { value: "2022", label: "2022" },
-              { value: "2021", label: "2021" },
-            ]}
+            options={years}
           />
         </div>
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
-          data={data}
+          data={overview}
           margin={{
             top: 0,
             right: 0,
@@ -79,7 +75,7 @@ const EarningOverview = () => {
           <YAxis axisLine={false} tickLine={false} tickMargin={20} />
 
           <Tooltip
-            formatter={(value) => [`Monthly Earning: $${value}`]}
+            formatter={(value) => [`Earning: $${value.toFixed(2)}`]}
             contentStyle={{
               color: "#010101",
               fontWeight: "500",

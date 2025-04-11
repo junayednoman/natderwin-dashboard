@@ -10,24 +10,20 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-
-const data = [
-  { month: "Jan", user: 1200 },
-  { month: "Feb", user: 1402 },
-  { month: "Mar", user: 1525 },
-  { month: "Apr", user: 1222 },
-  { month: "May", user: 1553 },
-  { month: "Jun", user: 1634 },
-  { month: "Jul", user: 1923 },
-  { month: "Aug", user: 1324 },
-  { month: "Sep", user: 1834 },
-  { month: "Oct", user: 1256 },
-  { month: "Nov", user: 1634 },
-  { month: "Dec", user: 2105 },
-];
+import { useGetUserOverviewQuery } from "../../../../redux/api/summaryApi";
+import { years } from "../../../../data/global.data";
 
 const UserOverview = () => {
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+
+  // fetch data
+  const params = {
+    year: selectedYear,
+  };
+  const { data } = useGetUserOverviewQuery(params);
+  const growth = data?.data?.growth;
+  const userOverview = data?.data?.data;
 
   const handleChange = (value) => {
     setSelectedYear(value);
@@ -40,26 +36,28 @@ const UserOverview = () => {
 
         <div className="flex-center-start gap-x-4">
           <h1 className="font-medium bg-white rounded-lg px-3 py-1.5 text-sm border">
-            Monthly Growth: <span className="ml-2 font-semibold">35.80%</span>
+            Monthly Growth:{" "}
+            <span
+              className={`ml-2 font-semibold ${
+                growth > 0 ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {growth}%
+            </span>
           </h1>
 
           <Select
             value={selectedYear}
             style={{ width: 120 }}
             onChange={handleChange}
-            options={[
-              { value: "2024", label: "2024" },
-              { value: "2023", label: "2023" },
-              { value: "2022", label: "2022" },
-              { value: "2021", label: "2021" },
-            ]}
+            options={years}
           />
         </div>
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
-          data={data}
+          data={userOverview}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>
@@ -98,7 +96,7 @@ const UserOverview = () => {
           <Area
             activeDot={{ fill: "#1B70A6" }}
             type="monotone"
-            dataKey="user"
+            dataKey="users"
             strokeWidth={0}
             stroke="blue"
             fill="url(#color)"

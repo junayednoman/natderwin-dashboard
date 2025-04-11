@@ -58,14 +58,6 @@ const authApi = baseApi.injectEndpoints({
         }
       }
     }),
-    getAllUsers: builder.query({
-      query: (params) => ({
-        url: '/auth/all-users',
-        method: "GET",
-        params: params
-      }),
-      providesTags: ['user'],
-    }),
     getSingleUser: builder.query({
       query: ({ id, params }) => ({
         url: `/auth/users/${id}`,
@@ -91,4 +83,4 @@ const authApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useSignInMutation, useVerifyOtpMutation, useSendOtpMutation, useSetForgottenPasswordMutation, useChangePasswordMutation, useGetAllUsersQuery, useGetSingleUserQuery, useBlockUserMutation, useApproveUserMutation, useLogOutMutation } = authApi;
+export const { useSignInMutation, useVerifyOtpMutation, useSendOtpMutation, useSetForgottenPasswordMutation, useChangePasswordMutation, useGetSingleUserQuery, useBlockUserMutation, useApproveUserMutation, useLogOutMutation } = authApi;
