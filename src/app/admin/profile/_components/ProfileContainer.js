@@ -34,7 +34,7 @@ export default function ProfileContainer() {
   };
 
   // Debounce the handleImageUpload to prevent multiple API calls
-  const debouncedHandleImageUpload = debounce(handleImageUpload, 300);
+  const debouncedHandleImageUpload = debounce(handleImageUpload, 400);
   return (
     <ConfigProvider
       theme={{

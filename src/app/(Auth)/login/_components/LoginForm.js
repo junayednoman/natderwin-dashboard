@@ -53,7 +53,7 @@ export default function LoginForm() {
         <FormWrapper
           defaultValues={{
             email: "admin@gmail.com",
-            password: "password",
+            password: "admin",
           }}
           onSubmit={onLoginSubmit}
           resolver={zodResolver(loginSchema)}
