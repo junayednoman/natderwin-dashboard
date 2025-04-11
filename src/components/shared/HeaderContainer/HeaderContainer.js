@@ -13,7 +13,6 @@ const { Header } = Layout;
 export default function HeaderContainer({ collapsed, setCollapsed }) {
   const pathname = usePathname();
   const navbarTitle = pathname.split("/admin")[1].split("/")[1];
-  console.log("navbarTitle", navbarTitle.split("/")[1]);
   return (
     <Header
       style={{

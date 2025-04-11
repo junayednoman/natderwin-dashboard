@@ -1,0 +1,29 @@
+const ErrorMessage = ({
+  message,
+  className,
+  showBtn,
+}: {
+  message: string;
+  className?: string;
+  showBtn: boolean;
+}) => {
+  const handleRetry = () => {
+    window.location.reload();
+  };
+  return (
+    <div className={className}>
+      <p className="text-gray-200">
+        {message || "Oops! Something went wrong!"}
+      </p>
+      {showBtn && (
+        <button
+          onClick={handleRetry}
+          className="text-sm bg-primary-red border border-primary-red text-white rounded-lg py-3 px-8 w-auto mt-7 font-semibold"
+        >
+          Try Again
+        </button>
+      )}
+    </div>
+  );
+};
+export default ErrorMessage;

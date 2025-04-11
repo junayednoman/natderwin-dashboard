@@ -12,6 +12,16 @@ const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ['profile']
     }),
+    logOut: builder.mutation({
+      query: () => {
+        return {
+          url: '/auth/log-out',
+          method: 'POST',
+          credentials: "include"
+        }
+      },
+      invalidatesTags: ['profile']
+    }),
     sendOtp: builder.mutation({
       query: (data) => {
         return {
@@ -81,4 +91,4 @@ const authApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useSignInMutation, useVerifyOtpMutation, useSendOtpMutation, useSetForgottenPasswordMutation, useChangePasswordMutation, useGetAllUsersQuery, useGetSingleUserQuery, useBlockUserMutation, useApproveUserMutation } = authApi;
+export const { useSignInMutation, useVerifyOtpMutation, useSendOtpMutation, useSetForgottenPasswordMutation, useChangePasswordMutation, useGetAllUsersQuery, useGetSingleUserQuery, useBlockUserMutation, useApproveUserMutation, useLogOutMutation } = authApi;

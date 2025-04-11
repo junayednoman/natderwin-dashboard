@@ -1,6 +1,7 @@
 import { Urbanist } from "next/font/google";
 import "./globals.css";
 import Providers from "../lib/Providers";
+import { ToastContainer } from "react-toastify";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -8,11 +9,10 @@ const urbanist = Urbanist({
 
 export const metadata = {
   title: {
-    default: "Before After Story - Discover Real Transformations",
-    template: "%s | Before After Story",
+    default: "TAILSDATE",
+    template: "%s | TAILSDATE",
   },
-  description:
-    "Before After is a platform that helps people discover real transformation with verified results. Our MoTo - Explore authentic stories of change from trusted businesses. Explore authentic stories of change from trusted businesses",
+  description: "TAILSDATE",
 };
 
 export default function RootLayout({ children }) {
@@ -41,6 +41,18 @@ export default function RootLayout({ children }) {
 
       <body className={`${urbanist.className} box-border antialiased`}>
         <Providers>{children}</Providers>
+        <ToastContainer
+          position="top-right"
+          autoClose={1800}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </body>
     </html>
   );

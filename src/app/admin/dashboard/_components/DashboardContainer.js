@@ -1,11 +1,11 @@
 "use client";
-
 import RecentUserTable from "./RecentUserTable";
 import UserOverview from "./UserOverview";
 import CustomCountUp from "../../../../components/CustomCountUp/CustomCountUp";
 import EarningOverview from "./EarningOverview";
 import { Users } from "lucide-react";
 import { CircleDollarSign } from "lucide-react";
+import { useGetUserOverviewQuery } from "../../../../redux/api/summaryApi";
 
 // Dummy Data
 const userStats = [
@@ -24,6 +24,8 @@ const userStats = [
 ];
 
 export default function DashboardContainer() {
+  const { data } = useGetUserOverviewQuery();
+  console.log('data', data);
   return (
     <div className="space-y-4">
       {/* User Stats Section */}

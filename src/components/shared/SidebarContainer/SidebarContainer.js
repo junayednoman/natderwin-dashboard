@@ -16,25 +16,24 @@ import earningIcon from "../../../assets/images/earnings.svg";
 import cashoutIcon from "../../../assets/images/cashout.svg";
 import subscriptionsIcon from "../../../assets/images/subscriptions.svg";
 import pointsIcon from "../../../assets/images/points.svg";
-// import subscriptionIcon from "../../../assets/images/subscriptions.svg";
 import settingIcon from "../../../assets/images/settings.svg";
 import logoutIcon from "../../../assets/images/logout.svg";
+import { logOut } from "../../../redux/features/authSlice";
+import { useAppDispatch } from "../../../redux/hooks/hooks";
+import { useLogOutMutation } from "../../../redux/api/authApi";
+import handleMutation from "../../../utils/handleMutation";
 
 const SidebarContainer = ({ collapsed }) => {
-  // const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [logout] = useLogOutMutation();
 
   // Logout handler
   const onClick = (e) => {
-    // if (e.key === "logout") {
-    //   dispatch(logout());
-    //   router.refresh();
-    //   router.push("/login");
-
-    //   Success_model({ title: "Logout successful" });
-    // }
-
-    console.log("logout success");
+    handleMutation({}, logout, "Logging out...", () => {
+      dispatch(logOut());
+      router.push("/login");
+    });
   };
 
   const navLinks = [
@@ -100,7 +99,11 @@ const SidebarContainer = ({ collapsed }) => {
     {
       key: "logout",
       icon: <Image src={logoutIcon} alt="logout" />,
-      label: <Link href="/login">Logout</Link>,
+      label: (
+        <div onClick={onClick} className="w-auto h-full">
+          <button>Logout</button>
+        </div>
+      ),
     },
   ];
 
@@ -143,7 +146,7 @@ const SidebarContainer = ({ collapsed }) => {
       </div>
 
       <Menu
-        onClick={onClick}
+        // onClick={onClick}
         defaultSelectedKeys={[currentPathname]}
         mode="inline"
         className="sidebar-menu !bg-transparent space-y-2.5 !border-none"

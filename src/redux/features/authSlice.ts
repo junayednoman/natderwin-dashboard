@@ -21,14 +21,15 @@ const authSlice = createSlice({
       const { user, token } = action.payload;
       state.user = user;
       state.token = token;
+
       // set cookie for middleware access
-      Cookies.set("adminAccessToken", token, { path: "/", domain: "localhost" });
+      Cookies.set("adminAccessToken", token, { path: "/" });
     },
     logOut: (state) => {
       state.user = null;
       state.token = null;
       // Remove token for cookies
-      Cookies.remove("adminAccessToken", { path: "/", domain: "localhost" });
+      Cookies.remove("adminAccessToken", { path: "/" });
     }
   }
 })

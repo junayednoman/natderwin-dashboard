@@ -7,9 +7,7 @@ export const editProfileSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
     .min(1, { message: "Email is required" }),
-  contact: z
-    .string({ required_error: "Contact is required" })
-    .min(1, { message: "Contact is required" }),
+  phone: z.string().optional(),
 });
 
 export const changePasswordSchema = z.object({

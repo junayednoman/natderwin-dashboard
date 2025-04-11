@@ -1,6 +1,4 @@
 import SingleReportDetails from "../SingleReportDetails";
-import AccountDetails from "../SingleReportDetails";
-
 export const metadata = {
   title: "Account Details",
   description: "Account details page",

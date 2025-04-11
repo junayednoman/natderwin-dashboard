@@ -1,9 +1,6 @@
 import { Col } from "antd";
 import Dragger from "antd/es/upload/Dragger";
-import { UploadListType } from "antd/es/upload/interface";
 import { ImagePlus } from "lucide-react";
-import { Image } from "lucide-react";
-import { FileUp } from "lucide-react";
 
 
 const UUpload = ({

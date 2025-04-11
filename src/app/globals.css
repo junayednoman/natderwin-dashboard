@@ -252,3 +252,7 @@ input::placeholder {
 .ant-menu {
   padding-bottom: 30px !important;
 }
+
+.profileUploader .ant-upload-list-item-container{
+  display: none;
+}

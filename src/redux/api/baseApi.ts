@@ -12,7 +12,7 @@ const baseQuery = fetchBaseQuery({
 
     // If user have a token set it in the state
     if (accessToken) {
-      headers.set("authorization", `Bearer, ${accessToken}`);
+      headers.set("authorization", `Bearer ${accessToken}`);
     }
     return headers;
   }
@@ -24,9 +24,9 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-
+    
+  // retrieve new token
   if (result?.error?.status === 401) {
-    console.log('hitting refresh token');
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/get-access-token`, {
       method: "GET",
       headers: {

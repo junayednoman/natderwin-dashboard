@@ -1,24 +1,48 @@
 "use client";
-
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../../../schema/authSchema";
 import FormWrapper from "../../../../components/Form/FormWrapper";
 import UInput from "../../../../components/Form/UInput";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Checkbox } from "antd";
+import { useState } from "react";
+import handleMutation from "../../../../utils/handleMutation";
+import { useSignInMutation } from "../../../../redux/api/authApi";
+import { useAppDispatch } from "../../../../redux/hooks/hooks";
+import getUserByToken from "../../../../utils/getUserByToken";
+import { toast } from "react-toastify";
+import { setUser } from "../../../../redux/features/authSlice";
 
 export default function LoginForm() {
   const router = useRouter();
+  const params = useSearchParams();
+  const redirectUrl = params.get("redirect");
+  const [remember, setRemember] = useState(false);
+  const [login, { isLoading }] = useSignInMutation();
+  const dispatch = useAppDispatch();
 
-  const onLoginSubmit = (data) => {
-    console.log(data);
+  const onLoginSuccess = (res) => {
+    const accessToken = res.data?.accessToken;
+    const user = getUserByToken(accessToken);
 
-    router.push("/admin/dashboard");
+    if (user.role === "admin") {
+      dispatch(setUser({ token: accessToken, user }));
+      router.push(redirectUrl ? redirectUrl : "/admin/dashboard");
+    } else {
+      toast.warning("Only admin can login to the dashboard!", {
+        autoClose: 6000,
+      });
+    }
+  };
+
+  const onLoginSubmit = async (data) => {
+    data.is_remember = remember;
+    handleMutation(data, login, "Logging in...", onLoginSuccess);
   };
 
   const handleRemember = (e) => {
-    console.log(`checked = ${e.target.checked}`);
+    setRemember(e.target.checked);
   };
   return (
     <div className="">
@@ -27,6 +51,10 @@ export default function LoginForm() {
           Login
         </h4>
         <FormWrapper
+          defaultValues={{
+            email: "admin@gmail.com",
+            password: "password",
+          }}
           onSubmit={onLoginSubmit}
           resolver={zodResolver(loginSchema)}
         >
@@ -61,6 +89,7 @@ export default function LoginForm() {
               </Link>
             </div>
             <button
+              disabled={isLoading}
               type="submit"
               className="text-base bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 mt-5 w-full font-semibold"
             >

@@ -1,13 +1,17 @@
 "use client";
 
+import { useUpdateProfileMutation } from "../../../../redux/api/profileApi";
 import FormWrapper from "../../../../components/Form/FormWrapper";
 import UInput from "../../../../components/Form/UInput";
 import { editProfileSchema } from "../../../../schema/profileSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import handleMutation from "../../../../utils/handleMutation";
 
-export default function EditProfileForm() {
+export default function EditProfileForm({ admin }) {
+  const [updateProfile] = useUpdateProfileMutation();
   const handleSubmit = (data) => {
-    console.log(data);
+    console.log("data2", data);
+    handleMutation(data, updateProfile, "Updating profile...");
   };
 
   return (
@@ -19,9 +23,9 @@ export default function EditProfileForm() {
         onSubmit={handleSubmit}
         resolver={zodResolver(editProfileSchema)}
         defaultValues={{
-          name: "Justina Ojuyluv",
-          email: "justina.ojuyluv@gmail.com",
-          contact: "+1234567890",
+          name: admin?.name,
+          email: admin?.email,
+          phone: admin?.phone || "",
         }}
       >
         <div className="text-white edit-profile">
@@ -30,7 +34,7 @@ export default function EditProfileForm() {
           <div className="!my-10">
             <UInput name="email" label="Email" type="email" disabled />
           </div>
-          <UInput name="contact" label="Contact" type="contact" />
+          <UInput name="phone" label="Phone" type="text" />
 
           <button
             type="submit"
