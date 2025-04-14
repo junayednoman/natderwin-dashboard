@@ -6,8 +6,7 @@
     "dev": "next dev --turbopack -p 5011",
     "build": "next build",
     "start": "next start -p 5011",
-    "lint": "next lint",
-    "acp": "git add . && git commit -m \"$npm_config_message\" && git push"
+    "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.1",
