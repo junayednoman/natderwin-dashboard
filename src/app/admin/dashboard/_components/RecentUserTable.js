@@ -2,43 +2,52 @@
 
 import { ConfigProvider } from "antd";
 import { Table } from "antd";
-import { ListFilter, UserX } from "lucide-react";
+import { ListFilter, UserCheck, UserX } from "lucide-react";
 import { Eye } from "lucide-react";
-import { Filter } from "lucide-react";
 import Image from "next/image";
 import userImage from "../../../../assets/images/user-avatar-lg.png";
 import { Tooltip } from "antd";
 import { Tag } from "antd";
 import { useState } from "react";
 import ProfileModal from "../../../../components/SharedModals/ProfileModal";
-import { useGetAllUsersQuery } from "../../../../redux/api/userApi";
+import {
+  useBlockUserMutation,
+  useGetAllUsersQuery,
+} from "../../../../redux/api/userApi";
 import { format } from "date-fns";
-
-// Dummy Data
-const users = Array.from({ length: 5 }).map((_, inx) => ({
-  key: inx + 1,
-  name: "Justina",
-  userImg: userImage,
-  email: "justina@gmail.com",
-  contact: "+1234567890",
-  date: "11 oct 24, 11:10 PM",
-  type: "Subscriber",
-}));
+import handleMutation from "../../../../utils/handleMutation";
 
 const RecentUserTable = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 10;
+  const [blockUser] = useBlockUserMutation();
+
   const params = {
-    fields: "name email image type createdAt",
+    fields: "name email image type is_blocked createdAt",
+    limit,
+    page: currentPage,
   };
+
   const { data, isLoading } = useGetAllUsersQuery(params);
   const users = data?.data?.data;
+  const total = data?.data?.meta?.total;
+
+  const handleShowProfileModal = (id) => {
+    setSelectedUser(id);
+    setShowProfileModal(true);
+  };
+
+  const handleBLockUser = (id) => {
+    handleMutation(id, blockUser, "Blocking user...");
+  };
 
   // =============== Table columns ===============
   const columns = [
     {
       title: "Serial",
-      dataIndex: "key",
-      render: (value) => `#${value}`,
+      render: (_, record, index) => `#${index + 1}`,
     },
     {
       title: "Name",
@@ -93,25 +102,36 @@ const RecentUserTable = () => {
     },
     {
       title: "Action",
-      render: () => (
+      render: ({ _id, is_blocked }) => (
         <div className="flex-center-start gap-x-3">
           <Tooltip title="Show Details">
-            <button onClick={() => setShowProfileModal(true)}>
+            <button onClick={() => handleShowProfileModal(_id)}>
               <Eye color="#010101" size={22} />
             </button>
           </Tooltip>
-  
-          <Tooltip title="Block User">
+
+          <Tooltip
+            onClick={() => handleBLockUser(_id)}
+            title={`${is_blocked ? "Unblock" : "Block"} User`}
+          >
             <button>
-              <UserX color="#F16365" size={22} />
+              {is_blocked ? (
+                <UserCheck className="text-green-500" size={22} />
+              ) : (
+                <UserX color="#F16365" size={22} />
+              )}
             </button>
           </Tooltip>
         </div>
       ),
     },
   ];
-  
-  
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+    setCurrentPage(pagination.current);
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -125,19 +145,21 @@ const RecentUserTable = () => {
         Recently Joined Users
       </h4>
 
-      <div className="my-2">
-        <Table
-          className="rounded-lg dashboard-table"
-          style={{ overflowX: "auto" }}
-          loading={isLoading}
-          columns={columns}
-          dataSource={users}
-          scroll={{ x: "100%" }}
-        ></Table>
-      </div>
+      <Table
+        onChange={onChange}
+        loading={isLoading}
+        columns={columns}
+        dataSource={users}
+        pagination={{ pageSize: limit, total }}
+        className="mt-4"
+      />
 
       {/* Profile Modal */}
-      <ProfileModal open={showProfileModal} setOpen={setShowProfileModal} />
+      <ProfileModal
+        id={selectedUser}
+        open={showProfileModal}
+        setOpen={setShowProfileModal}
+      />
     </ConfigProvider>
   );
 };

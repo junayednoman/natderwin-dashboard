@@ -10,7 +10,6 @@ import handleMutation from "../../../../utils/handleMutation";
 export default function EditProfileForm({ admin }) {
   const [updateProfile] = useUpdateProfileMutation();
   const handleSubmit = (data) => {
-    console.log("data2", data);
     handleMutation(data, updateProfile, "Updating profile...");
   };
 

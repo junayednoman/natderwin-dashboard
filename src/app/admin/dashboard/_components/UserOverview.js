@@ -39,7 +39,11 @@ const UserOverview = () => {
             Monthly Growth:{" "}
             <span
               className={`ml-2 font-semibold ${
-                growth > 0 ? "text-green-500" : "text-red-500"
+                growth === 0
+                  ? "text-black"
+                  : growth > 0
+                  ? "text-green-500"
+                  : "text-red-500"
               }`}
             >
               {growth}%

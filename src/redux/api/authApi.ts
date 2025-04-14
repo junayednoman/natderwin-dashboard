@@ -58,14 +58,6 @@ const authApi = baseApi.injectEndpoints({
         }
       }
     }),
-    getSingleUser: builder.query({
-      query: ({ id, params }) => ({
-        url: `/auth/users/${id}`,
-        method: "GET",
-        params: params
-      }),
-      providesTags: ['user'],
-    }),
     approveUser: builder.mutation({
       query: (id) => ({
         url: `/auth/approve/${id}`,
@@ -73,14 +65,7 @@ const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['user', "profile"],
     }),
-    blockUser: builder.mutation({
-      query: (id) => ({
-        url: `/auth/block/${id}`,
-        method: "PATCH",
-      }),
-      invalidatesTags: ['user', "profile"],
-    }),
   })
 })
 
-export const { useSignInMutation, useVerifyOtpMutation, useSendOtpMutation, useSetForgottenPasswordMutation, useChangePasswordMutation, useGetSingleUserQuery, useBlockUserMutation, useApproveUserMutation, useLogOutMutation } = authApi;
+export const { useSignInMutation, useVerifyOtpMutation, useSendOtpMutation, useSetForgottenPasswordMutation, useChangePasswordMutation, useApproveUserMutation, useLogOutMutation } = authApi;

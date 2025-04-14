@@ -2,17 +2,19 @@ const ErrorMessage = ({
   message,
   className,
   showBtn,
+  black,
 }: {
   message: string;
   className?: string;
   showBtn: boolean;
+  black?: string;
 }) => {
   const handleRetry = () => {
     window.location.reload();
   };
   return (
     <div className={className}>
-      <p className="text-gray-200">
+      <p style={{ color: black && "black" }} className={`text-gray-200`}>
         {message || "Oops! Something went wrong!"}
       </p>
       {showBtn && (

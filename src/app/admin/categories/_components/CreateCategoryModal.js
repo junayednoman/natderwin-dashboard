@@ -5,16 +5,24 @@ import UInput from "../../../../components/Form/UInput";
 import FormWrapper from "../../../../components/Form/FormWrapper";
 import USelect from "../../../../components/Form/USelect";
 import { useState } from "react";
+import { useCreateCategoryMutation } from "../../../../redux/api/categoryApi";
+import handleMutation from "../../../../utils/handleMutation";
 
 export default function CreateCategoryModal({ open, setOpen }) {
   const [thumbnail, setThumbnail] = useState(undefined);
-  console.log("thumbnail", thumbnail);
+  const [createCategory, { isLoading }] = useCreateCategoryMutation();
+
   // handle image uploading
   const handleThumbnailUpload = (file) => {
-    setThumbnail(file.fileList[0]);
+    setThumbnail(file.fileList[0]?.originFileObj);
   };
   const onSubmit = (data) => {
-    console.log(data);
+    const payload = new FormData();
+    payload.append("payload", JSON.stringify(data));
+    payload.append("image", thumbnail);
+    handleMutation(payload, createCategory, "Creating category...", () => {
+      setOpen(false);
+    });
   };
   return (
     <Modal

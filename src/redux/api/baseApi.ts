@@ -24,7 +24,7 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-    
+
   // retrieve new token
   if (result?.error?.status === 401) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/get-access-token`, {
@@ -56,6 +56,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['profile', 'user'],
+  tagTypes: ['profile', 'user', 'category'],
   endpoints: () => ({})
 })

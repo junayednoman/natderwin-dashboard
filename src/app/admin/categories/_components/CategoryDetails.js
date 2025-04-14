@@ -9,42 +9,59 @@ import { useState } from "react";
 import { Filter } from "lucide-react";
 import Image from "next/image";
 import CustomConfirm from "../../../../components/CustomConfirm/CustomConfirm";
-import { message } from "antd";
 import { Tag } from "antd";
 import CreateCategoryModal from "./CreateCategoryModal";
 import { CirclePlus } from "lucide-react";
 import EditCategoryModal from "./EditCategoryModal";
 import { Trash2 } from "lucide-react";
-
-// Dummy table Data
-const data = Array.from({ length: 15 }).map((_, inx) => ({
-  key: inx + 1,
-  name: "Doogy",
-  userImg: "https://i.postimg.cc/nhkGjrMQ/Bullly-kutta.jpg",
-  date: "11 oct 24, 11.10PM",
-  status: "Active",
-}));
+import {
+  useDeleteCategoryMutation,
+  useGetAllCategoriesQuery,
+} from "../../../../redux/api/categoryApi";
+import { format } from "date-fns";
+import { toast } from "react-toastify";
+import { debounce } from "lodash";
+import handleMutation from "../../../../utils/handleMutation";
 
 export default function CategoryDetails() {
   const [searchText, setSearchText] = useState("");
+  const [userId, setUserId] = useState(null);
   const [editCategoryModalOpen, setEditCategoryModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [deleteCategory] = useDeleteCategoryMutation();
+
+  const { data, isLoading } = useGetAllCategoriesQuery({
+    searchText,
+  });
+  const categories = data?.data;
 
   // Block user handler
-  const handleBlockUser = () => {
-    message.success("User blocked successfully");
+  const handleDeleteCategory = (id) => {
+    handleMutation(id, deleteCategory, "Deleting category...");
   };
 
   const handleModalOpen = () => {
     setOpen(true);
   };
 
+  const handleShowModal = (id) => {
+    setUserId(id);
+    setEditCategoryModalOpen(true);
+    setOpen(false);
+  };
+
+  const handleSetSearchText = (text) => {
+    setSearchText(text);
+  };
+
+  const debouncedSearch = debounce(handleSetSearchText, 500);
+
   // ================== Table Columns ================
   const columns = [
     {
       title: "Serial",
       dataIndex: "key",
-      render: (value) => `#${value}`,
+      render: (_, record, index) => `#${index + 1}`,
     },
     {
       title: "Category Name",
@@ -52,8 +69,8 @@ export default function CategoryDetails() {
       render: (value, record) => (
         <div className="flex-center-start gap-x-2">
           <Image
-            src={record.userImg}
-            alt="User avatar"
+            src={record.image}
+            alt="Category image"
             width={1200}
             height={1200}
             className="rounded-full w-10 h-auto aspect-square"
@@ -62,15 +79,14 @@ export default function CategoryDetails() {
         </div>
       ),
     },
-
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
+      render: (value) => <p>{format(new Date(value), "dd MMM yyyy")}</p>,
     },
     {
       title: "Status",
       dataIndex: "status",
-
       filters: [
         {
           text: "Active",
@@ -88,15 +104,22 @@ export default function CategoryDetails() {
           className="flex justify-start items-start"
         />
       ),
-      onFilter: (value, record) => record.accountType.indexOf(value) === 0,
+      onFilter: (value, record) => {
+        // Log the value and record status for debugging
+        console.log("Filtering by:", value); // The filter value ('active' or 'inactive')
+        console.log("Record status:", record.status); // The status in the current record
+
+        // Check if the status contains the filter value in a case-insensitive manner
+        return record.status?.toLowerCase()?.includes(value.toLowerCase());
+      },
       render: (value) => <Tag className="!text-sm">{value}</Tag>,
     },
     {
       title: "Action",
-      render: () => (
+      render: ({ _id }) => (
         <div className="flex-center-start gap-x-3">
           <Tooltip title="Show Details">
-            <button onClick={() => setEditCategoryModalOpen(true)}>
+            <button onClick={() => handleShowModal(_id)}>
               <Eye size={23} />
             </button>
           </Tooltip>
@@ -105,7 +128,7 @@ export default function CategoryDetails() {
             <CustomConfirm
               title="Delete Category"
               description="Are you sure to delete this category?"
-              onConfirm={handleBlockUser}
+              onConfirm={() => handleDeleteCategory(_id)}
             >
               <Trash2 className="cursor-pointer" size={20} color="#F16365" />
             </CustomConfirm>
@@ -145,20 +168,22 @@ export default function CategoryDetails() {
                 placeholder="Search categories..."
                 prefix={<Search className="mr-2 text-black" size={20} />}
                 className="h-11 !border !rounded-lg !text-base"
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => debouncedSearch(e.target.value)}
               />
             </div>
           </div>
 
           <Table
+            loading={isLoading}
             style={{ overflowX: "auto" }}
             columns={columns}
-            dataSource={data}
+            dataSource={categories}
             scroll={{ x: "100%" }}
           ></Table>
         </div>
       </div>
       <EditCategoryModal
+        id={userId}
         open={editCategoryModalOpen}
         setOpen={setEditCategoryModalOpen}
       />

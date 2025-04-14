@@ -28,13 +28,13 @@ export default function ProfileContainer() {
     // Debounced function to call the API
     const formData = new FormData();
     formData.append("image", file.file.originFileObj);
-    console.log("file", file);
+    console.log("file", file.file.originFileObj);
 
     handleMutation(formData, updateImage, "Updating Image...");
   };
 
   // Debounce the handleImageUpload to prevent multiple API calls
-  const debouncedHandleImageUpload = debounce(handleImageUpload, 400);
+  const debouncedHandleImageUpload = debounce(handleImageUpload, 500);
   return (
     <ConfigProvider
       theme={{

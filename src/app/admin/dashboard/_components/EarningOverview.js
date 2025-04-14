@@ -35,10 +35,14 @@ const EarningOverview = () => {
 
         <div className="space-x-3 flex items-center gap-1">
           <h1 className="font-medium bg-white rounded-lg px-3 py-1.5 text-sm border">
-            Monthly Growth:{" "}
+            Monthly Growth:
             <span
               className={`ml-2 font-semibold ${
-                growth > 0 ? "text-green-500" : "text-red-500"
+                growth === 0
+                  ? "text-black"
+                  : growth > 0
+                  ? "text-green-500"
+                  : "text-red-500"
               }`}
             >
               {growth}%
