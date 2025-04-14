@@ -126,15 +126,6 @@ export default function EditCategoryModal({ open, setOpen, id }) {
                 ]}
               />
               <div className="flex items-center gap-4">
-                <CustomConfirm
-                  title="Delete Category"
-                  description="Are you sure to delete this category?"
-                  onConfirm={handleConfirm}
-                >
-                  <button className="text-sm bg-white text-primary-red border border-primary-red rounded-lg py-3 px-5 w-full font-semibold hover:bg-primary-red hover:text-white duration-200">
-                    Delete
-                  </button>
-                </CustomConfirm>
                 <button
                   disabled={isUpdating}
                   className="text-sm bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full font-semibold"

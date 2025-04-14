@@ -56,6 +56,7 @@ export default function CreateCategoryModal({ open, setOpen }) {
               ]}
             />
             <Button
+              disabled={isLoading}
               htmlType="submit"
               className="common-btn w-full !mt-8"
               size="large"
