@@ -10,6 +10,9 @@ import Image from "next/image";
 import { Tag } from "antd";
 import { DatePicker } from "antd";
 import Link from "next/link";
+import { useGetAllReportsQuery } from "../../../redux/api/reportApi";
+import { format } from "date-fns";
+import { useState } from "react";
 
 // Dummy table Data
 const data = Array.from({ length: 15 }).map((_, inx) => ({
@@ -23,6 +26,18 @@ const data = Array.from({ length: 15 }).map((_, inx) => ({
 }));
 
 export default function ReportContentDetails() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 10;
+  const params = {
+    fields: "",
+    page: currentPage,
+    limit,
+  };
+  const { data, isLoading } = useGetAllReportsQuery(params);
+  const reports = data?.data?.data;
+  const total = data?.data?.meta?.total;
+  console.log("reports", reports, total);
+
   const handleMonthChange = () => {
     console.log("month changed");
   };
@@ -31,31 +46,28 @@ export default function ReportContentDetails() {
     {
       title: "Serial",
       dataIndex: "key",
-      render: (value) => `#${value}`,
+      render: (_, record, index) => `#${index + 1}`,
     },
     {
       title: "Reported By",
-      dataIndex: "reporter",
+      dataIndex: "reporter.name",
       render: (value, record) => (
         <div className="flex-center-start gap-x-2">
           <Image
-            src={record.userImg}
+            src={record.reporter.image}
             alt="User avatar"
             width={1200}
             height={1200}
             className="rounded-full w-10 h-auto aspect-square"
           />
-          <p className="font-medium">{value}</p>
+          <p className="font-medium">{record.reporter.name}</p>
         </div>
       ),
     },
     {
       title: "User Reporting",
-      dataIndex: "date",
-    },
-    {
-      title: "Post Link",
-      dataIndex: "post_link",
+      dataIndex: "post",
+      render: (value) => <p>{value.author.name}</p>,
     },
     {
       title: "Reason for Report",
@@ -63,24 +75,28 @@ export default function ReportContentDetails() {
     },
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
+      render: (value) => <p>{format(new Date(value), "dd MMM yyyy")}</p>,
     },
     {
       title: "Status",
       dataIndex: "status",
-
       filters: [
         {
           text: "Pending",
           value: "pending",
         },
         {
-          text: "Blocked",
-          value: "blocked",
-        },
-        {
           text: "Resolved",
           value: "resolved",
+        },
+        {
+          text: "Post removed",
+          value: "post_removed",
+        },
+        {
+          text: "User blocked",
+          value: "user_blocked",
         },
       ],
       filterIcon: () => (
@@ -90,15 +106,15 @@ export default function ReportContentDetails() {
           className="flex justify-start items-start"
         />
       ),
-      onFilter: (value, record) => record.accountType.indexOf(value) === 0,
-      render: (value) => <Tag className="!text-sm">{value}</Tag>,
+      onFilter: (value, record) => record?.status?.indexOf(value) === 0,
+      render: (value) => <Tag className="!text-sm capitalize">{value}</Tag>,
     },
     {
       title: "Action",
-      render: () => (
+      render: ({ _id }) => (
         <div className="flex-center-start gap-x-3">
           <Tooltip title="Show Details">
-            <Link href={`reports/id`}>
+            <Link href={`reports/${_id}`}>
               <Eye color="#1B70A6" size={22} />
             </Link>
           </Tooltip>
@@ -107,6 +123,12 @@ export default function ReportContentDetails() {
     },
   ];
 
+  const onTableChange = (pagination, filters, sorter) => {
+    console.log("pagination", pagination);
+    console.log("filters", filters);
+    console.log("sorter", sorter);
+    setCurrentPage(pagination?.current);
+  };
   return (
     <ConfigProvider
       theme={{
@@ -135,9 +157,15 @@ export default function ReportContentDetails() {
           </div>
 
           <Table
+            onChange={onTableChange}
+            loading={isLoading}
             style={{ overflowX: "auto" }}
             columns={columns}
-            dataSource={data}
+            pagination={{
+              pageSize: limit,
+              total: total,
+            }}
+            dataSource={reports}
             scroll={{ x: "100%" }}
           ></Table>
         </div>

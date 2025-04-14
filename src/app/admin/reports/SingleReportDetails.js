@@ -2,8 +2,13 @@
 import MiniProfile from "../../../components/MiniProfile/MiniProfile";
 import { Button, Checkbox } from "antd";
 import Image from "next/image";
+import { useGetSingleReportQuery } from "../../../redux/api/reportApi";
 
 const optionsWithDisabled = [
+  {
+    label: "Pending",
+    value: "pending",
+  },
   {
     label: "Resolved",
     value: "resolved",
@@ -19,7 +24,9 @@ const optionsWithDisabled = [
   },
 ];
 
-export default function SingleReportDetails() {
+export default function SingleReportDetails({ id }) {
+  const { data } = useGetSingleReportQuery(id);
+  const report = data?.data;
   const onChange = (checkedValues) => {
     console.log("checked = ", checkedValues);
   };
@@ -103,7 +110,6 @@ export default function SingleReportDetails() {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3 mt-4">
-          
           <Image
             src={
               "https://img.freepik.com/premium-photo/closeup-shot-beautiful-bald-eagle-with-intense-gaze_1106493-46973.jpg"
@@ -113,7 +119,7 @@ export default function SingleReportDetails() {
             height={1000}
             alt="parrot"
           />
-          
+
           <Image
             src={
               "https://img.freepik.com/premium-photo/closeup-shot-beautiful-bald-eagle-with-intense-gaze_1106493-46973.jpg"
@@ -123,7 +129,7 @@ export default function SingleReportDetails() {
             height={1000}
             alt="parrot"
           />
-          
+
           <Image
             src={
               "https://aussieanimals.com/wp-content/uploads/2024/09/Aussie-Parrots.jpg"
@@ -133,7 +139,7 @@ export default function SingleReportDetails() {
             height={1000}
             alt="parrot"
           />
-          
+
           <Image
             src={
               "https://aussieanimals.com/wp-content/uploads/2024/09/Aussie-Parrots.jpg"
