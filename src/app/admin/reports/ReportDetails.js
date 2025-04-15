@@ -10,24 +10,37 @@ import { Tag } from "antd";
 import { DatePicker } from "antd";
 import Link from "next/link";
 import { useGetAllReportsQuery } from "../../../redux/api/reportApi";
-import { format } from "date-fns";
-import { useState } from "react";
+import { endOfMonth, format, startOfMonth } from "date-fns";
+import { useState, useMemo } from "react";
 
 export default function ReportContentDetails() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedDate, setSelectedDate] = useState("");
+
+  // Calculate startDate and endDate based on the selected date
+  const { startDate, endDate } = useMemo(() => {
+    const date = new Date(selectedDate);
+    const startDate = startOfMonth(date);
+    const endDate = endOfMonth(date);
+    return { startDate, endDate };
+  }, [selectedDate]);
+
   const limit = 10;
   const params = {
-    fields: "",
     page: currentPage,
     limit,
   };
+
+  if (selectedDate) {
+    params.startDate = startDate;
+    params.endDate = endDate;
+  }
   const { data, isLoading } = useGetAllReportsQuery(params);
   const reports = data?.data?.data;
   const total = data?.data?.meta?.total;
-  console.log("reports", reports, total);
 
-  const handleMonthChange = () => {
-    console.log("month changed");
+  const handleMonthChange = (value) => {
+    setSelectedDate(value);
   };
   // ================== Table Columns ================
   const columns = [
@@ -117,6 +130,7 @@ export default function ReportContentDetails() {
     console.log("sorter", sorter);
     setCurrentPage(pagination?.current);
   };
+
   return (
     <ConfigProvider
       theme={{
@@ -136,7 +150,7 @@ export default function ReportContentDetails() {
 
             <div className="w-[200px] month-picker">
               <DatePicker
-                placeholder="This Month"
+                placeholder="Select a month"
                 className="w-full h-[44px] text-black !border-black !border"
                 onChange={handleMonthChange}
                 picker="month"
