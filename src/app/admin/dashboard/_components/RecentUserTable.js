@@ -16,18 +16,28 @@ import {
 } from "../../../../redux/api/userApi";
 import { format } from "date-fns";
 import handleMutation from "../../../../utils/handleMutation";
+import { Input } from "antd";
+import { Search } from "lucide-react";
+import { debounce } from "lodash";
 
-const RecentUserTable = ({ title }) => {
+const RecentUserTable = ({ title, limit = 10 }) => {
+  const [searchText, setSearchText] = useState("");
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 10;
   const [blockUser] = useBlockUserMutation();
+
+  const handleSearchText = (value) => {
+    setSearchText(value);
+  };
+
+  const debouncedHandleSearchText = debounce(handleSearchText, 500);
 
   const params = {
     fields: "name email image type is_blocked createdAt",
     limit,
     page: currentPage,
+    searchTerm: searchText,
   };
 
   const { data, isLoading } = useGetAllUsersQuery(params);
@@ -141,13 +151,24 @@ const RecentUserTable = ({ title }) => {
         },
       }}
     >
-      {title ? (
-        title
-      ) : (
-        <h4 className="text-2xl font-semibold text-primary-white mt-6">
-          Recently Joined Users
-        </h4>
-      )}
+      <div className={`flex items-center justify-between ${title && "mb-6"}`}>
+        {title ? (
+          title
+        ) : (
+          <h4 className="text-2xl font-semibold text-primary-white mt-6">
+            Recently Joined Users
+          </h4>
+        )}
+
+        <div className="w-[350px] month-picker">
+          <Input
+            placeholder="Search users..."
+            prefix={<Search className="mr-2 text-black" size={20} />}
+            className="h-11 !border !rounded-lg !text-base"
+            onChange={(e) => debouncedHandleSearchText(e.target.value)}
+          />
+        </div>
+      </div>
 
       <Table
         onChange={onChange}
