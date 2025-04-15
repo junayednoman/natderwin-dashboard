@@ -1,10 +1,10 @@
 import SingleReportDetails from "../SingleReportDetails";
 export const metadata = {
-  title: "Account Details",
-  description: "Account details page",
+  title: "Single report",
+  description: "Single report",
 };
 
-export default async function AccountPage({ params }) {
+export default async function SingleReportPage({ params }) {
   const id = await params?.id;
 
   return (

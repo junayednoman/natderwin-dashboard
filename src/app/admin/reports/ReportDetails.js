@@ -3,7 +3,6 @@
 import { Table } from "antd";
 import { Tooltip } from "antd";
 import { ConfigProvider } from "antd";
-import userImage from "../../../assets/images/user-avatar-lg.png";
 import { Eye } from "lucide-react";
 import { Filter } from "lucide-react";
 import Image from "next/image";
@@ -13,17 +12,6 @@ import Link from "next/link";
 import { useGetAllReportsQuery } from "../../../redux/api/reportApi";
 import { format } from "date-fns";
 import { useState } from "react";
-
-// Dummy table Data
-const data = Array.from({ length: 15 }).map((_, inx) => ({
-  key: inx + 1,
-  name: "Justina",
-  userImg: userImage,
-  date: "11 oct 24, 11.10PM",
-  status: "Pending",
-  post_link: "https://gemini.google.com/app",
-  reason: "Abuse",
-}));
 
 export default function ReportContentDetails() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,7 +131,7 @@ export default function ReportContentDetails() {
         <div className="bg-[#FE5858] p-4 pt-6 rounded-lg">
           <div className="flex items-center justify-between mb-6">
             <h1 className="capitalize text-3xl font-semibold text-white">
-              Reporting List
+              Reporting Lists
             </h1>
 
             <div className="w-[200px] month-picker">

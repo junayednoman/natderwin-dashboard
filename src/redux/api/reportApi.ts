@@ -17,9 +17,16 @@ const reportApi = baseApi.injectEndpoints({
       }),
       providesTags: ['report']
     }),
-
+    updateReportStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `/reports/${id}`,
+        method: "PATCH",
+        body: { status }
+      }),
+      invalidatesTags: ['report']
+    }),
   })
 })
 
 
-export const { useGetAllReportsQuery, useGetSingleReportQuery } = reportApi;
+export const { useGetAllReportsQuery, useGetSingleReportQuery, useUpdateReportStatusMutation } = reportApi;
