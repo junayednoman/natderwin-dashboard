@@ -13,39 +13,52 @@ import { DatePicker } from "antd";
 import CustomCountUp from "../../../../components/CustomCountUp/CustomCountUp";
 import { Repeat } from "lucide-react";
 import { CircleDollarSign } from "lucide-react";
-
-// Dummy Data
-const earningStats = [
-  {
-    key: "earnings",
-    title: "Total Earnings",
-    icon: <CircleDollarSign className="text-white" size={33} />,
-    count: 5180,
-  },
-  {
-    key: "subscriptions",
-    title: "Subscriptions Purchased",
-    icon: <Repeat className="text-white" size={33} />,
-    count: 118,
-  },
-];
-
-// Dummy table data
-const data = Array.from({ length: 15 }).map((_, inx) => ({
-  key: inx + 1,
-  name: "Justina",
-  userImg: userImage,
-  email: "justina@gmail.com",
-  contact: "+1234567890",
-  date: "11 oct 24, 11.10PM",
-  subscriptionType: "Monthly",
-  amount: 22,
-}));
+import {
+  useGetEarningsQuery,
+  useGetEarningStatsQuery,
+} from "../../../../redux/api/summaryApi";
+import { endOfMonth, format, startOfMonth } from "date-fns";
+import { useMemo } from "react";
 
 export default function EarningsTable() {
+  const [currentPage, setCurrentPage] = useState(1);
   const [showEarningModal, setShowEarningModal] = useState(false);
-  const handleMonthChange = () => {
-    console.log("month changed");
+  const [selectedEarning, setSelectedEarning] = useState(null);
+  const handleMonthChange = (value) => {
+    setSelectedDate(value);
+  };
+
+  // Calculate startDate and endDate based on the selected date
+  const [selectedDate, setSelectedDate] = useState("");
+  const { startDate, endDate } = useMemo(() => {
+    const date = new Date(selectedDate);
+    const startDate = startOfMonth(date);
+    const endDate = endOfMonth(date);
+    return { startDate, endDate };
+  }, [selectedDate]);
+
+  const { data: statsData } = useGetEarningStatsQuery();
+  const stats = statsData?.data;
+
+  // fetch data
+  const limit = 10;
+  const params = {
+    limit,
+    page: currentPage,
+  };
+
+  if (selectedDate) {
+    params.startDate = startDate;
+    params.endDate = endDate;
+  }
+
+  const { data, isLoading } = useGetEarningsQuery(params);
+  const earnings = data?.data?.data;
+  const total = data?.data?.meta?.total;
+
+  const handleSelectEarning = (id) => {
+    setSelectedEarning(id);
+    setShowEarningModal(true);
   };
 
   // ================== Table Columns ================
@@ -53,40 +66,35 @@ export default function EarningsTable() {
     {
       title: "Serial",
       dataIndex: "key",
-      render: (value) => `#${value}`,
+      render: (_, record, index) => `#${index + 1}`,
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "User",
+      dataIndex: "user",
       render: (value, record) => (
         <div className="flex-center-start gap-x-2">
           <Image
-            src={record.userImg}
+            src={record.user.image}
             alt="User avatar"
             width={1200}
             height={1200}
             className="rounded-full w-10 h-auto aspect-square"
           />
-          <p className="font-medium">{value}</p>
+          <p className="font-medium">{value.name}</p>
         </div>
       ),
     },
     {
-      title: "Subscription Type",
-      dataIndex: "subscriptionType",
-
+      title: "Payment Purpose",
+      dataIndex: "purpose",
       filters: [
         {
-          text: "Monthly",
-          value: "monthly",
+          text: "Subscription payment",
+          value: "subscription",
         },
         {
-          text: "Quarterly",
-          value: "quarterly",
-        },
-        {
-          text: "Yearly",
-          value: "yearly",
+          text: "Star payment",
+          value: "star",
         },
       ],
       filterIcon: () => (
@@ -96,11 +104,14 @@ export default function EarningsTable() {
           className="flex justify-start items-start"
         />
       ),
-      onFilter: (value, record) => record.subscriptionType.indexOf(value) === 0,
+      onFilter: (value, record) => record?.purpose?.indexOf(value) === 0,
     },
     {
       title: "Purchase Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
+      render: (value) => (
+        <p className="font-medium">{format(value, "dd MMM yyyy")}</p>
+      ),
     },
 
     {
@@ -112,15 +123,19 @@ export default function EarningsTable() {
     },
     {
       title: "Action",
-      render: () => (
+      render: ({ _id }) => (
         <Tooltip title="Show Details">
-          <button onClick={() => setShowEarningModal(true)}>
+          <button onClick={() => handleSelectEarning(_id)}>
             <Eye color="#1B70A6" size={22} />
           </button>
         </Tooltip>
       ),
     },
   ];
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    setCurrentPage(pagination?.current);
+  };
 
   return (
     <ConfigProvider
@@ -134,38 +149,39 @@ export default function EarningsTable() {
       <div className="bg-[#FE5858] p-4 py-6 rounded-lg mb-6">
         {/* User Stats Section */}
         <section className="grid grid-cols-2 gap-5">
-          {earningStats?.map((stat) => (
-            <div
-              key={stat.key}
-              className="flex-center-start gap-x-4 bg-light-red p-6 rounded-lg"
-            >
-              <div className="bg-primary-blue flex-center rounded-full p-4">
-                {stat.icon}
-              </div>
-
-              <div>
-                <p className="font-dmSans text-xl text-primary-black">
-                  {stat.title}
-                </p>
-                <h5 className="text-3xl font-semibold text-primary-black mt-0.5">
-                  {stat.key !== "earning" ? (
-                    <CustomCountUp end={stat.count} />
-                  ) : (
-                    <span>
-                      $<CustomCountUp end={stat.count} />
-                    </span>
-                  )}
-                </h5>
-              </div>
+          <div className="flex-center-start gap-x-4 bg-light-red p-6 rounded-lg">
+            <div className="bg-primary-blue flex-center rounded-full p-4">
+              <CircleDollarSign size={33} className="text-white" />
             </div>
-          ))}
+            <div>
+              <p className="font-dmSans text-xl text-primary-black">
+                Total Earnings
+              </p>
+              <h5 className="text-3xl font-semibold text-primary-black mt-0.5">
+                <CustomCountUp end={stats?.earnings?.toFixed(2) || 0} />
+              </h5>
+            </div>
+          </div>
+          <div className="flex-center-start gap-x-4 bg-light-red p-6 rounded-lg">
+            <div className="bg-primary-blue flex-center rounded-full p-4">
+              <Repeat size={33} className="text-white" />
+            </div>
+            <div>
+              <p className="font-dmSans text-xl text-primary-black">
+                Subscriptions Purchased
+              </p>
+              <h5 className="text-3xl font-semibold text-primary-black mt-0.5">
+                <CustomCountUp end={stats?.subscriptions || 0} />
+              </h5>
+            </div>
+          </div>
         </section>
 
         <div className="mt-10">
           {/* Earning stats */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="capitalize text-3xl font-semibold text-white">
-              Subscription Data
+              Earning Data
             </h1>
 
             <div className="w-[200px] month-picker">
@@ -181,16 +197,22 @@ export default function EarningsTable() {
           {/* Earning table */}
           <section>
             <Table
+              onChange={onChange}
+              loading={isLoading}
               style={{ overflowX: "auto" }}
               columns={columns}
-              dataSource={data}
+              dataSource={earnings}
               scroll={{ x: "100%" }}
-              pagination
+              pagination={{ pageSize: limit, total }}
             ></Table>
           </section>
 
           {/* Show earning modal */}
-          <EarningModal open={showEarningModal} setOpen={setShowEarningModal} />
+          <EarningModal
+            id={selectedEarning}
+            open={showEarningModal}
+            setOpen={setShowEarningModal}
+          />
         </div>
       </div>
     </ConfigProvider>

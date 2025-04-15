@@ -12,12 +12,12 @@ import Link from "next/link";
 import { useGetAllReportsQuery } from "../../../redux/api/reportApi";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { useState, useMemo } from "react";
+import ErrorMessage from "../../../components/ErrorMessage/ShowError";
 
 export default function ReportContentDetails() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedDate, setSelectedDate] = useState("");
-
   // Calculate startDate and endDate based on the selected date
+  const [selectedDate, setSelectedDate] = useState("");
   const { startDate, endDate } = useMemo(() => {
     const date = new Date(selectedDate);
     const startDate = startOfMonth(date);
@@ -35,7 +35,7 @@ export default function ReportContentDetails() {
     params.startDate = startDate;
     params.endDate = endDate;
   }
-  const { data, isLoading } = useGetAllReportsQuery(params);
+  const { data, isLoading, error } = useGetAllReportsQuery(params);
   const reports = data?.data?.data;
   const total = data?.data?.meta?.total;
 
@@ -125,13 +125,16 @@ export default function ReportContentDetails() {
   ];
 
   const onTableChange = (pagination, filters, sorter) => {
-    console.log("pagination", pagination);
-    console.log("filters", filters);
-    console.log("sorter", sorter);
     setCurrentPage(pagination?.current);
   };
 
-  return (
+  return error ? (
+    <ErrorMessage
+      className="py-44 text-center"
+      showBtn
+      message={error?.data?.message}
+    />
+  ) : (
     <ConfigProvider
       theme={{
         token: {
