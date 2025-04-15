@@ -13,6 +13,7 @@ import { UserX } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import CustomConfirm from "../../../components/CustomConfirm/CustomConfirm";
+import { useGetAllUsersQuery } from "../../../redux/api/userApi";
 
 // Dummy Data
 const data = Array.from({ length: 15 }).map((_, inx) => ({
@@ -24,8 +25,20 @@ const data = Array.from({ length: 15 }).map((_, inx) => ({
   date: "11 oct 24, 11:10 PM",
   type: "Subscriber",
 }));
+
 export default function AccountDetails() {
   const [searchText, setSearchText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 3;
+  const params = {
+    limit,
+    page: currentPage,
+  };
+
+  const { data: userData } = useGetAllUsersQuery(params);
+  const users = userData?.data?.data;
+  const total = userData?.data?.meta?.total;
+
   const onPopConfirm = () => {
     console.log("user blocked");
   };
@@ -35,7 +48,7 @@ export default function AccountDetails() {
     {
       title: "Serial",
       dataIndex: "key",
-      render: (value) => `#${value}`,
+      render: (_, record, index) => `#${index + 1}`,
     },
     {
       title: "Name",
@@ -43,7 +56,7 @@ export default function AccountDetails() {
       render: (value, record) => (
         <div className="flex-center-start gap-x-2">
           <Image
-            src={record.userImg}
+            src={record.image}
             alt="User avatar"
             width={40}
             height={40}
@@ -138,9 +151,10 @@ export default function AccountDetails() {
           </div>
 
           <Table
+            pagination={{ pageSize: limit, total: total }}
             style={{ overflowX: "auto" }}
             columns={columns}
-            dataSource={data}
+            dataSource={users}
             scroll={{ x: "100%" }}
           ></Table>
         </div>

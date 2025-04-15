@@ -17,7 +17,7 @@ import {
 import { format } from "date-fns";
 import handleMutation from "../../../../utils/handleMutation";
 
-const RecentUserTable = () => {
+const RecentUserTable = ({ title }) => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -141,9 +141,13 @@ const RecentUserTable = () => {
         },
       }}
     >
-      <h4 className="text-2xl font-semibold text-primary-white mt-6">
-        Recently Joined Users
-      </h4>
+      {title ? (
+        title
+      ) : (
+        <h4 className="text-2xl font-semibold text-primary-white mt-6">
+          Recently Joined Users
+        </h4>
+      )}
 
       <Table
         onChange={onChange}
