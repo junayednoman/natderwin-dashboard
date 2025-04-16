@@ -3,14 +3,14 @@ import FormWrapper from "../../../../components/Form/FormWrapper";
 import UTextArea from "../../../../components/Form/UTextArea";
 import { Modal } from "antd";
 
-export default function RejectModal({ open, setOpen }) {
+export default function RejectModal({ open, setOpen, handleReject, id }) {
   const handleFormSubmit = (data) => {
-    console.log("data", data);
+    handleReject(id, data.reason);
   };
 
   return (
     <Modal
-    className="small-modal"
+      className="small-modal"
       centered
       open={open}
       setOpen={setOpen}

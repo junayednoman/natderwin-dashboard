@@ -1,50 +1,92 @@
 "use client";
 
 import { ConfigProvider, Table } from "antd";
-import userImage from "../../../assets/images/user-avatar-lg.png";
 import Image from "next/image";
 import { useState } from "react";
 import CashoutRequestModal from "./_components/CashoutRequestDetailsModal";
 import { Input } from "antd";
 import { Search } from "lucide-react";
 import RejectModal from "./_components/RejectModal";
-
-// Dummy table data
-const data = Array.from({ length: 15 }).map((_, inx) => ({
-  key: inx + 1,
-  name: "Justina",
-  userImg: userImage,
-  status: "pending",
-  date: "11 oct 24, 11.10PM",
-  subscriptionType: "Monthly",
-  amount: 22,
-}));
+import {
+  useGetAllCashoutRequestsQuery,
+  useUpdateCashoutRequestMutation,
+} from "../../../redux/api/cashoutApi";
+import { format } from "date-fns";
+import { debounce } from "lodash";
+import handleMutation from "../../../utils/handleMutation";
 
 export default function CashoutRequestTable() {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [updateRequest] = useUpdateCashoutRequestMutation();
+
+  // handle show details
+  const handleShowDetails = (id) => {
+    setSelectedUser(id);
+    setShowDetailsModal(true);
+  };
+
+  // handle search
+  const handleSearchText = (value) => {
+    setSearchText(value);
+  };
+
+  // handle approve
+  const handleApprove = (id) => {
+    const payload = {
+      status: "approved",
+    };
+    handleMutation({ id, payload }, updateRequest, "Approving request...");
+  };
+
+  // handle reject
+  const handleReject = (id, rejection_reason) => {
+    const payload = {
+      status: "rejected",
+      rejection_reason,
+    };
+    handleMutation({ id, payload }, updateRequest, "Rejecting request...");
+    setShowRejectModal(false);
+  };
+
+  const handleShowRejectModal = (id) => {
+    setSelectedUser(id);
+    setShowRejectModal(true);
+  };
+
+  const debouncedHandleSearchText = debounce(handleSearchText, 500);
+
+  // fetch data
+  const params = {
+    searchTerm: searchText,
+    limit: 100000000000,
+  };
+  const { data, isLoading } = useGetAllCashoutRequestsQuery(params);
+  const requests = data?.data?.data;
+  console.log("data", requests);
 
   // ================== Table Columns ================
   const columns = [
     {
       title: "Serial",
       dataIndex: "key",
-      render: (value) => `#${value}`,
+      render: (_, record, index) => `#${index + 1}`,
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "User",
+      dataIndex: "user",
       render: (value, record) => (
         <div className="flex-center-start gap-x-2">
           <Image
-            src={record.userImg}
+            src={value?.image}
             alt="User avatar"
             width={1200}
             height={1200}
             className="rounded-full w-10 h-auto aspect-square"
           />
-          <p className="font-medium">{value}</p>
+          <p className="font-medium">{value?.name}</p>
         </div>
       ),
     },
@@ -72,33 +114,40 @@ export default function CashoutRequestTable() {
     },
     {
       title: "History",
-      render: () => (
+      render: ({ _id }) => (
         <button
-          onClick={() => setShowDetailsModal(true)}
+          onClick={() => handleShowDetails(_id)}
           className="!text-base font-semibold border border-[#A57758] text-[#A57758] rounded-lg p-1 px-2"
         >
           View Details
         </button>
       ),
     },
-
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
+      render: (value) => <p>{format(new Date(value), "dd MMM yyyy")}</p>,
     },
     {
       title: "Action",
-      render: () => (
+      render: ({ _id }, record) => (
         <div className="flex items-center gap-2">
-          <button className="text-sm bg-[#1A8588] text-white rounded-lg py-1 px-5">
-            Approve
-          </button>
-          <button
-            onClick={() => setShowRejectModal(true)}
-            className="text-sm bg-primary-red text-white rounded-lg py-1 px-5"
-          >
-            Reject
-          </button>
+          {record?.status !== "approved" && (
+            <button
+              onClick={() => handleApprove(_id)}
+              className="text-sm bg-[#1A8588] text-white rounded-lg py-1 px-5"
+            >
+              Approve
+            </button>
+          )}
+          {record?.status !== "rejected" && (
+            <button
+              onClick={() => handleShowRejectModal(_id)}
+              className="text-sm bg-primary-red text-white rounded-lg py-1 px-5"
+            >
+              Reject
+            </button>
+          )}
         </div>
       ),
     },
@@ -125,7 +174,7 @@ export default function CashoutRequestTable() {
                 placeholder="Search requests..."
                 prefix={<Search className="mr-2 text-black" size={20} />}
                 className="h-11 !border !rounded-lg !text-base"
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => debouncedHandleSearchText(e.target.value)}
               />
             </div>
           </div>
@@ -133,22 +182,29 @@ export default function CashoutRequestTable() {
           {/* Earning table */}
           <section>
             <Table
+              loading={isLoading}
               style={{ overflowX: "auto" }}
               columns={columns}
-              dataSource={data}
+              dataSource={requests}
               scroll={{ x: "100%" }}
-              pagination
+              pagination={{ pageSize: 15 }}
             ></Table>
           </section>
 
           {/* Show earning modal */}
           <CashoutRequestModal
-          setShowRejectModal={setShowRejectModal}
+            id={selectedUser}
+            setShowRejectModal={setShowRejectModal}
             open={showDetailsModal}
             setOpen={setShowDetailsModal}
           />
           {/* Show rejection modal */}
-          <RejectModal open={showRejectModal} setOpen={setShowRejectModal} />
+          <RejectModal
+            id={selectedUser}
+            handleReject={handleReject}
+            open={showRejectModal}
+            setOpen={setShowRejectModal}
+          />
         </div>
       </div>
     </ConfigProvider>
