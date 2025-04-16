@@ -3,9 +3,13 @@
 import { Modal } from "antd";
 import Image from "next/image";
 import userImage from "../../../../assets/images/user-avatar-lg.png";
-import { useGetSingleCashoutRequestQuery } from "../../../../redux/api/cashoutApi";
+import {
+  useGetSingleCashoutRequestQuery,
+  useUpdateCashoutRequestMutation,
+} from "../../../../redux/api/cashoutApi";
 import Spinner from "../../../../components/spinner/Spinner";
 import ErrorMessage from "../../../../components/ErrorMessage/ShowError";
+import handleMutation from "../../../../utils/handleMutation";
 
 export default function CashoutRequestModal({
   open,
@@ -13,10 +17,26 @@ export default function CashoutRequestModal({
   setShowRejectModal,
   id,
 }) {
+  const [updateRequest] = useUpdateCashoutRequestMutation();
   const { data, isLoading, error } = useGetSingleCashoutRequestQuery(id, {
     skip: !open || !id,
   });
   const cashout = data?.data;
+
+  // handle approve
+  const handleApprove = () => {
+    const payload = {
+      status: "approved",
+    };
+    handleMutation(
+      { id, payload },
+      updateRequest,
+      "Approving request...",
+      () => {
+        setOpen(false);
+      }
+    );
+  };
 
   const handleShowRejectModal = () => {
     setShowRejectModal(true);
@@ -85,15 +105,22 @@ export default function CashoutRequestModal({
             </div>
           </section>
           <div className="flex items-center gap-3 mt-6">
-            <button className="text-sm bg-[#1A8588] text-white rounded-lg py-3 px-5 w-full">
-              Approve
-            </button>
-            <button
-              onClick={handleShowRejectModal}
-              className="text-sm bg-primary-red text-white rounded-lg py-3 px-5 w-full"
-            >
-              Reject
-            </button>
+            {cashout?.status !== "approved" && (
+              <button
+                onClick={handleApprove}
+                className="text-sm bg-[#1A8588] text-white rounded-lg py-3 px-5 w-full"
+              >
+                Approve
+              </button>
+            )}
+            {cashout?.status !== "rejected" && (
+              <button
+                onClick={handleShowRejectModal}
+                className="text-sm bg-primary-red text-white rounded-lg py-3 px-5 w-full"
+              >
+                Reject
+              </button>
+            )}
           </div>
         </>
       )}
