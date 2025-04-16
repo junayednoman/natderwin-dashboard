@@ -4,39 +4,31 @@ import { CirclePlus } from "lucide-react";
 import CreatePointModal from "./CreatePointModal";
 import PointCard from "./PointCard";
 import EditPointPlanModal from "./EditPointPlanModal";
-
-const subscriptionPlans = [
-  {
-    stars: 99,
-    price: "29.34",
-  },
-  {
-    stars: 99,
-    price: "29.34",
-  },
-  {
-    stars: 99,
-    price: "29.34",
-  },
-  {
-    stars: 99,
-    price: "29.34",
-  },
-  {
-    stars: 99,
-    price: "29.34",
-  },
-  {
-    stars: 99,
-    price: "29.34",
-  },
-];
+import { useGetAllStarPlansQuery } from "../../../../redux/api/starPlanApi";
+import Spinner from "../../../../components/spinner/Spinner";
+import ErrorMessage from "../../../../components/ErrorMessage/ShowError";
 
 export default function PointsContainer() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [planId, setPlanId] = useState(null);
+  const { data, isLoading, error } = useGetAllStarPlansQuery();
+  const plans = data?.data;
 
-  return (
+  const handleShowModal = (id) => {
+    setPlanId(id);
+    setShowEditModal(true);
+  };
+
+  return isLoading ? (
+    <Spinner className="py-44" />
+  ) : error ? (
+    <ErrorMessage
+      className="text-center py-44"
+      showBtn
+      message={error?.data?.message}
+    />
+  ) : (
     <div>
       <div>
         <button
@@ -49,12 +41,14 @@ export default function PointsContainer() {
         {/* <CreateCategoryModal open={open} setOpen={setOpen} /> */}
       </div>
       <div className="p-8 bg-primary-red rounded-lg mb-6">
-        <h5 className="text-white text-2xl font-semibold mb-5">
-          Manage Stars{" "}
-        </h5>
+        <h5 className="text-white text-2xl font-semibold mb-5">Manage Stars</h5>
         <section className="grid grid-cols-6 gap-4">
-          {subscriptionPlans.map((data, idx) => (
-            <PointCard key={idx} data={data} setShowModal={setShowEditModal} />
+          {plans.map((data, idx) => (
+            <PointCard
+              key={idx}
+              data={data}
+              handleShowModal={handleShowModal}
+            />
           ))}
         </section>
 
@@ -62,7 +56,11 @@ export default function PointsContainer() {
         <CreatePointModal open={showCreateModal} setOpen={setShowCreateModal} />
 
         {/* Edit Subscription Plan Modal */}
-        <EditPointPlanModal open={showEditModal} setOpen={setShowEditModal} />
+        <EditPointPlanModal
+          id={planId}
+          open={showEditModal}
+          setOpen={setShowEditModal}
+        />
       </div>
     </div>
   );
