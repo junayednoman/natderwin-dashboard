@@ -6,10 +6,16 @@ import UTextArea from "../../../../components/Form/UTextArea";
 import { Button, Modal } from "antd";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createSubscriptionSchema } from "../../../../schema/subscriptionSchema";
+import { useCreateSubscriptionPlanMutation } from "../../../../redux/api/subscriptionPlanApi";
+import handleMutation from "../../../../utils/handleMutation";
 
 export default function CreateSubscriptionPlanModal({ open, setOpen }) {
+  const [createPlan, { isLoading }] = useCreateSubscriptionPlanMutation();
   const onSubmit = (data) => {
-    console.log(data);
+    data.duration = Number(data.duration);
+    handleMutation(data, createPlan, "Creating subscription plan...", () => {
+      setOpen(false);
+    });
   };
 
   return (
@@ -35,9 +41,10 @@ export default function CreateSubscriptionPlanModal({ open, setOpen }) {
             placeholder="Enter subscription plan name"
           />
           <UInput
+            type="number"
             className={"!mb-3"}
             name="duration"
-            label="Duration"
+            label="Duration (months)"
             placeholder="Monthly/Yearly/Quarterly or 6 months/12 months"
           />
           <div className="!mb-6">
@@ -58,6 +65,7 @@ export default function CreateSubscriptionPlanModal({ open, setOpen }) {
           </div>
 
           <Button
+            disabled={isLoading}
             htmlType="submit"
             className="common-btn w-full !mt-5"
             size="large"

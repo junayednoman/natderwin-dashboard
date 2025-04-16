@@ -47,8 +47,14 @@ export default function CashoutRequestTable() {
       status: "rejected",
       rejection_reason,
     };
-    handleMutation({ id, payload }, updateRequest, "Rejecting request...");
-    setShowRejectModal(false);
+    handleMutation(
+      { id, payload },
+      updateRequest,
+      "Rejecting request...",
+      () => {
+        setShowRejectModal(false);
+      }
+    );
   };
 
   const handleShowRejectModal = (id) => {
