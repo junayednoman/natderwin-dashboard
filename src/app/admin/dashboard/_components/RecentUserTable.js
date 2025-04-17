@@ -19,6 +19,7 @@ import handleMutation from "../../../../utils/handleMutation";
 import { Input } from "antd";
 import { Search } from "lucide-react";
 import { debounce } from "lodash";
+import Link from "next/link";
 
 const RecentUserTable = ({ title, limit = 10 }) => {
   const [searchText, setSearchText] = useState("");
@@ -115,9 +116,11 @@ const RecentUserTable = ({ title, limit = 10 }) => {
       render: ({ _id, is_blocked }) => (
         <div className="flex-center-start gap-x-3">
           <Tooltip title="Show Details">
-            <button onClick={() => handleShowProfileModal(_id)}>
+            {/* <button onClick={() => handleShowProfileModal(_id)}> */}
+            <Link href={`/admin/account-details/${_id}`}>
               <Eye color="#010101" size={22} />
-            </button>
+            </Link>
+            {/* </button> */}
           </Tooltip>
 
           <Tooltip

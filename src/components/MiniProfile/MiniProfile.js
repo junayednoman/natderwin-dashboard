@@ -1,7 +1,6 @@
 import { defaultProfileImg } from "../../constant/global.constant";
 import { MapPin } from "lucide-react";
 export default function MiniProfile({ data }) {
-  console.log("data", data);
   return (
     <div className="flex items-center gap-2">
       <div>

@@ -3,14 +3,36 @@ import MiniProfile from "../../../components/MiniProfile/MiniProfile";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 
-export default function PostCard() {
+export default function PostCard({ post }) {
   const onPopConfirm = () => {
     console.log("deleted");
   };
+
+  const profileData = {
+    name: post?.author?.name,
+    location: post?.author?.location,
+    image: post?.author?.profile_image,
+  };
+
+  // for images
+  const getGridClass = () => {
+    if (post?.images?.length === 1) return "grid-cols-1";
+    if (post?.images?.length === 2) return "grid-cols-2";
+    if (post?.images?.length === 3) return "grid-cols-2";
+    return "grid-cols-2"; // For 4 or more
+  };
+
+  const imageClass = (index) => {
+    if (post?.images?.length === 3 && index === 0) {
+      return "col-span-2"; // Make first image span full width in 2 cols
+    }
+    return "";
+  };
+
   return (
     <div className="border p-2 rounded-lg border-primary-black">
       <div className="flex justify-between">
-        <MiniProfile />
+        <MiniProfile data={profileData} />
         <CustomConfirm
           description={"Are you sure you want to delete this post?"}
           onConfirm={onPopConfirm}
@@ -19,60 +41,20 @@ export default function PostCard() {
         </CustomConfirm>
       </div>
       <div className="my-3">
-        <p>
-          Forget Tarzan, meet this stray cat—the real jungle king! 🌴 Every time
-          I step outside to bring home plants, this fearless furball appears out
-          of nowhere, ready to explore like it’s a grand safari. 🐾✨ From
-          climbing trees to sniffing every leaf, this little adventurer adds a
-          wild touch to my gardening trips. Who knew a stray could have such a
-          big personality?!
-        </p>
+        <p>{post?.caption}</p>
       </div>
-      <div className="space-x-2 font-medium text-primary-red">
-        <a href="#">#eagle</a>
-        <a href="#">#powerful_bird</a>
-        <a href="#">#the_bird</a>
-      </div>
-      <div className="grid grid-cols-2 gap-3 mt-4">
-        <Image
-          src={
-            "https://img.freepik.com/premium-photo/closeup-shot-beautiful-bald-eagle-with-intense-gaze_1106493-46973.jpg"
-          }
-          className="rounded-lg"
-          width={1000}
-          height={1000}
-          alt="parrot"
-        />
-
-        <Image
-          src={
-            "https://img.freepik.com/premium-photo/closeup-shot-beautiful-bald-eagle-with-intense-gaze_1106493-46973.jpg"
-          }
-          className="rounded-lg"
-          width={1000}
-          height={1000}
-          alt="parrot"
-        />
-
-        <Image
-          src={
-            "https://aussieanimals.com/wp-content/uploads/2024/09/Aussie-Parrots.jpg"
-          }
-          className="rounded-lg"
-          width={1000}
-          height={1000}
-          alt="parrot"
-        />
-
-        <Image
-          src={
-            "https://aussieanimals.com/wp-content/uploads/2024/09/Aussie-Parrots.jpg"
-          }
-          className="rounded-lg"
-          width={1000}
-          height={1000}
-          alt="parrot"
-        />
+      <div className={`grid gap-2 mt-4 ${getGridClass()}`}>
+        {post?.images?.map((image, index) => (
+          <div key={index} className={imageClass(index)}>
+            <Image
+              src={image}
+              alt={`post-image-${index}`}
+              width={1000}
+              height={1000}
+              className="rounded-lg w-full h-auto object-cover"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -5,11 +5,12 @@ export const metadata = {
   description: "Report content details page",
 };
 
-export default function ReportContentPage() {
+export default async function ReportContentPage({ params }) {
+  const id = await params?.id;
+
   return (
     <main>
-      <SingleAccountDetails />
-     
+      <SingleAccountDetails id={id} />
     </main>
   );
 }
