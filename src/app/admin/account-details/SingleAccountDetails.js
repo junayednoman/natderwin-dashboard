@@ -76,7 +76,7 @@ export default function SingleAccountDetails({ id }) {
               </div>
               <div>
                 <h6 className="text-base font-semibold">Location</h6>
-                <p>{user?.location}</p>
+                <p>{user?.location || "N/A"}</p>
               </div>
               <div>
                 <h6 className="text-base font-semibold">Account Type</h6>
@@ -102,11 +102,15 @@ export default function SingleAccountDetails({ id }) {
         </div>
         <div className="lg:col-span-2 border border-primary-black rounded-lg p-3 bg-light-red h-fit">
           <h3 className="text-3xl font-bold">Posts</h3>
-          <div className="grid grid-cols-2 gap-2 mt-4">
-            {posts?.map((post) => (
-              <PostCard key={post?._id} post={post} />
-            ))}
-          </div>
+          {posts?.length > 0 ? (
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              {posts?.map((post) => (
+                <PostCard key={post?._id} post={post} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-lg py-44">No posts found!</p>
+          )}
         </div>
       </div>
       <div className="flex items-center justify-end mt-6 post-pagination">
