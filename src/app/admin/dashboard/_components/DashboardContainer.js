@@ -7,10 +7,10 @@ import { Users } from "lucide-react";
 import { CircleDollarSign } from "lucide-react";
 import { useGetStatsQuery } from "../../../../redux/api/summaryApi";
 import Spinner from "../../../../components/spinner/Spinner";
+import { ToastContainer } from "react-toastify";
 export default function DashboardContainer() {
   const { data: statData, isLoading } = useGetStatsQuery();
   const stats = statData?.data;
-
 
   return isLoading ? (
     <Spinner className="py-44" />
@@ -56,6 +56,18 @@ export default function DashboardContainer() {
       <section>
         <RecentUserTable />
       </section>
+      <ToastContainer
+        position="top-right"
+        autoClose={1800}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

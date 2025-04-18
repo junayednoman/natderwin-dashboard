@@ -1,6 +1,7 @@
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import userAvatar from "../../../../assets/images/user-avatar-lg.png";
+import { format } from "date-fns";
 
 export default function NotificationCard({ notification }) {
   return (
@@ -15,12 +16,24 @@ export default function NotificationCard({ notification }) {
 
       <div className="space-y-1">
         <p className="text-xl">
-          <span className="text-[21px] font-semibold">
+          <span
+            className={`text-[21px] ${
+              notification.has_read ? "font-normal" : "font-extrabold"
+            }`}
+          >
             {notification.title}
           </span>
         </p>
-        <p className="text-lg font-medium">{notification.body}</p>
-        <p className="text-[#ffffffb9]">{notification.date}</p>
+        <p
+          className={`text-lg ${
+            notification.has_read ? "font-normal" : "font-bold"
+          }`}
+        >
+          {notification.body}
+        </p>
+        <p className="text-[#ffffffb9]">
+          {format(new Date(notification.createdAt), "EEE, hh:mm a")}
+        </p>
       </div>
 
       <div className="flex-center-between w-max whitespace-nowrap gap-x-6 mb-7 ml-10">

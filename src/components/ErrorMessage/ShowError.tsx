@@ -14,7 +14,10 @@ const ErrorMessage = ({
   };
   return (
     <div className={className}>
-      <p style={{ color: black && "black" }} className={`text-gray-200 text-lg`}>
+      <p
+        style={{ color: black && "black" }}
+        className={`text-gray-200 text-lg`}
+      >
         {message || "Oops! Something went wrong!"}
       </p>
       {showBtn && (
