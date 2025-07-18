@@ -20,9 +20,17 @@ export default function CreateCategoryModal({ open, setOpen }) {
     const payload = new FormData();
     payload.append("payload", JSON.stringify(data));
     payload.append("image", thumbnail);
-    handleMutation(payload, createCategory, "Creating category...", () => {
-      setOpen(false);
-    });
+    handleMutation(
+      payload,
+      createCategory,
+      "Creating category...",
+      () => {
+        setOpen(false);
+      },
+      () => {
+        setOpen(false);
+      }
+    );
   };
   return (
     <Modal
@@ -58,10 +66,10 @@ export default function CreateCategoryModal({ open, setOpen }) {
             <Button
               disabled={isLoading}
               htmlType="submit"
-              className="common-btn w-full !mt-8"
+              className="common-btn w-full !mt-8 disabled:opacity-60"
               size="large"
             >
-              Submit
+              {isLoading ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </FormWrapper>

@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import handleMutation from "../../../../utils/handleMutation";
 
 export default function EditProfileForm({ admin }) {
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const handleSubmit = (data) => {
     handleMutation(data, updateProfile, "Updating profile...");
   };
@@ -37,9 +37,10 @@ export default function EditProfileForm({ admin }) {
 
           <button
             type="submit"
-            className="text-base bg-white border border-primary-red text-primary-black rounded-lg py-3 px-5 mt-5 w-full font-semibold"
+            disabled={isLoading}
+            className="text-base disabled:opacity-60 bg-white border border-primary-red text-primary-black rounded-lg py-3 px-5 mt-5 w-full font-semibold"
           >
-            Save Changes
+            {isLoading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </FormWrapper>

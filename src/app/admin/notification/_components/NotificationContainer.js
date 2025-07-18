@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import NotificationCard from "./NotificationCard";
 import { useState } from "react";
-import { useAppSelector } from "../../../../redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks/hooks";
 import { selectUser } from "../../../../redux/features/authSlice";
 import Cookies from "js-cookie";
 import getSocket from "../../../../socket";
@@ -10,13 +10,15 @@ import { useGetNotificationsQuery } from "../../../../redux/api/notificationApi"
 import Spinner from "../../../../components/spinner/Spinner";
 import ErrorMessage from "../../../../components/ErrorMessage/ShowError";
 import { Bell } from "lucide-react";
+import { baseApi } from "../../../../redux/api/baseApi";
+import { toast } from "react-toastify";
 
 export default function NotificationContainer() {
   const token = Cookies.get("adminAccessToken");
   const socket = getSocket(token);
   const user = useAppSelector(selectUser);
   const [limit, setLimit] = useState(8);
-  const [page, setPage] = useState(1);
+  const dispatch = useAppDispatch();
 
   // fetch notifications initially
   const params = {
@@ -25,28 +27,18 @@ export default function NotificationContainer() {
   };
 
   const { data, isLoading, error, refetch } = useGetNotificationsQuery(params);
-  const initialNotifications = data?.data?.data;
+  const notifications = data?.data?.data;
   const total = data?.data?.meta?.total;
 
   const handleLoadMore = () => {
     setLimit(limit + 8);
   };
 
-  // Create state to hold notifications
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    refetch();
-    if (initialNotifications) {
-      setNotifications(initialNotifications);
-    }
-  }, [initialNotifications]);
-
   useEffect(() => {
     // Listen for admin's notifications
     socket.on(`receive-notification::${user?.id}`, ({ notification }) => {
-      // toast.info(notification.title);
-      setNotifications((prev) => [notification, ...prev]);
+      dispatch(baseApi.util.invalidateTags(["notification"]));
+      toast.info(notification.title, { autoClose: 6000 });
     });
 
     return () => {
@@ -56,7 +48,20 @@ export default function NotificationContainer() {
 
   const handleReadAll = () => {
     socket.emit("read-notification", user?.id);
+    dispatch(baseApi.util.invalidateTags(["notification"]));
     refetch();
+  };
+
+  const handleCreateNotification = () => {
+    const payload = {
+      title: "New Notification",
+      // type: "friend_activity" | "post_engagement",
+      body: "This is a new notification",
+      link: "#",
+      receiver: user.id,
+      is_admin_receiver: true,
+    };
+    socket.emit("send-notification", payload);
   };
 
   return isLoading ? (
@@ -71,6 +76,12 @@ export default function NotificationContainer() {
     <div className="mx-auto mb-10 bg-primary-red rounded-lg p-6 px-8 text-white">
       <section className="flex-center-between mb-5">
         <h4 className="text-3xl font-semibold">Notifications</h4>
+        <button
+          onClick={handleCreateNotification}
+          className="text-sm = border  text-white rounded-lg py-3 px-8 w-auto font-semibold"
+        >
+          Create new
+        </button>
         <button
           onClick={handleReadAll}
           className="text-sm = border  text-white rounded-lg py-3 px-8 w-auto font-semibold"

@@ -67,10 +67,10 @@ export default function CreateSubscriptionPlanModal({ open, setOpen }) {
           <Button
             disabled={isLoading}
             htmlType="submit"
-            className="common-btn w-full !mt-5"
+            className="common-btn w-full !mt-5 disabled:opacity-60"
             size="large"
           >
-            Submit
+            {isLoading ? "Creating..." : "Create Plan"}
           </Button>
         </div>
       </FormWrapper>

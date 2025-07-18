@@ -14,6 +14,7 @@ import {
 import { format } from "date-fns";
 import { debounce } from "lodash";
 import handleMutation from "../../../utils/handleMutation";
+import { ToastContainer } from "react-toastify";
 
 export default function CashoutRequestTable() {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -39,22 +40,6 @@ export default function CashoutRequestTable() {
       status: "approved",
     };
     handleMutation({ id, payload }, updateRequest, "Approving request...");
-  };
-
-  // handle reject
-  const handleReject = (id, rejection_reason) => {
-    const payload = {
-      status: "rejected",
-      rejection_reason,
-    };
-    handleMutation(
-      { id, payload },
-      updateRequest,
-      "Rejecting request...",
-      () => {
-        setShowRejectModal(false);
-      }
-    );
   };
 
   const handleShowRejectModal = (id) => {
@@ -207,11 +192,11 @@ export default function CashoutRequestTable() {
           {/* Show rejection modal */}
           <RejectModal
             id={selectedUser}
-            handleReject={handleReject}
             open={showRejectModal}
             setOpen={setShowRejectModal}
           />
         </div>
+        <ToastContainer />
       </div>
     </ConfigProvider>
   );

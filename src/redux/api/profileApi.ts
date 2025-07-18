@@ -3,7 +3,13 @@ import { baseApi } from "./baseApi";
 const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query({
-      query: () => '/admins',
+      query: () => {
+        console.log('getProfile');
+        return {
+          url: '/admins',
+          method: 'GET'
+        }
+      },
       providesTags: ['profile']
     }),
     updateProfile: builder.mutation({

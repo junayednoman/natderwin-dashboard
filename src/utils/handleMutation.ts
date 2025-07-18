@@ -22,7 +22,8 @@ const handleMutation = async (
       }
     }
   } catch (error: any) {
-    toast.update(loadingToast, { render: error?.data?.message || "Something went wrong!", type: "error", isLoading: false, autoClose: 1800 });
+    const errorMessage = error?.data?.message || error?.message || "Something went wrong!";
+    toast.update(loadingToast, { render: errorMessage, type: "error", isLoading: false, autoClose: 1800 });
     console.log("error22, ", error);
   }
 };

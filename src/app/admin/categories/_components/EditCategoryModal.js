@@ -54,10 +54,6 @@ export default function EditCategoryModal({ open, setOpen, id }) {
       }
     );
   };
-  // Block user handler
-  const handleConfirm = () => {
-    message.success("User blocked successfully");
-  };
 
   return (
     <Modal
@@ -128,9 +124,9 @@ export default function EditCategoryModal({ open, setOpen, id }) {
               <div className="flex items-center gap-4">
                 <button
                   disabled={isUpdating}
-                  className="text-sm bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full font-semibold"
+                  className="text-sm disabled:opacity-60 bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full font-semibold"
                 >
-                  Save
+                  {isUpdating ? "Updating..." : "Update"}
                 </button>
               </div>
             </div>

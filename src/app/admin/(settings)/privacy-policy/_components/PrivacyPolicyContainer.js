@@ -28,9 +28,9 @@ export default function PrivacyPolicyContainer() {
 
         <button
           disabled={isLoading}
-          className="text-base bg-white border border-primary-red text-primary-black rounded-lg py-3 px-5 w-full mt-5 font-semibold"
+          className="text-base disabled:opacity-60 bg-white border border-primary-red text-primary-black rounded-lg py-3 px-5 w-full mt-5 font-semibold"
         >
-          Save Changes
+          {isLoading ? "Saving..." : "Save Changes"}
         </button>
       </FormWrapper>
     </section>

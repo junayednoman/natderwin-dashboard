@@ -68,7 +68,7 @@ export default function EditPointPlanModal({ open, setOpen, id }) {
       }}
     >
       {isLoading ? (
-        <Spinner className="py-36" />
+        <Spinner className="py-40" />
       ) : error ? (
         <ErrorMessage
           black
@@ -115,9 +115,9 @@ export default function EditPointPlanModal({ open, setOpen, id }) {
               <div className="flex items-center gap-5">
                 <button
                   disabled={isPlanUpdating}
-                  className="text-sm bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full mt-6 font-semibold"
+                  className="text-sm disabled:opacity-60 bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full mt-6 font-semibold"
                 >
-                  Save
+                  {isPlanUpdating ? "Updating..." : "Update"}
                 </button>
               </div>
             </div>

@@ -101,7 +101,7 @@ export default function CashoutRequestModal({
             </div>
             <div className="flex-center-between">
               <span>Status : </span>
-              <span>Pending</span>
+              <span className="capitalize">{cashout?.status}</span>
             </div>
           </section>
           <div className="flex items-center gap-3 mt-6">

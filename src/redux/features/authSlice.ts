@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { RootState } from "../../app/store";
 
 type TAuthType = {
-  user: null | { email: string, role: "admin" | "athlete" },
+  user: null | { email: string, role: "admin" | "athlete", id: string },
   token: null | string;
 }
 

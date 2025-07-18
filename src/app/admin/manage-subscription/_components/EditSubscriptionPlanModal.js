@@ -99,9 +99,9 @@ export default function EditSubscriptionPlanModal({ open, setOpen, id }) {
             <div className="flex items-center gap-4 !mt-12">
               <button
                 disabled={isPlanUpdating}
-                className="text-sm bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full font-semibold"
+                className="text-sm disabled:opacity-60 bg-primary-red border border-primary-red text-white rounded-lg py-3 px-5 w-full font-semibold"
               >
-                Save
+                {isPlanUpdating ? "Updating..." : "Update"}
               </button>
             </div>
           </div>

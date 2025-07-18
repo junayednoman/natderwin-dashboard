@@ -53,10 +53,10 @@ export default function CreatePointModal({ open, setOpen }) {
           <Button
             disabled={isLoading}
             htmlType="submit"
-            className="common-btn w-full !mt-5"
+            className="common-btn disabled:opacity-60 w-full !mt-5"
             size="large"
           >
-            Submit
+            {isLoading ? "Creating..." : "Create"}
           </Button>
         </div>
       </FormWrapper>

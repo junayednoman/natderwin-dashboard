@@ -9,46 +9,18 @@ import { AlignJustify } from "lucide-react";
 import { useGetProfileQuery } from "../../../redux/api/profileApi";
 import { selectUser } from "../../../redux/features/authSlice";
 import { useAppSelector } from "../../../redux/hooks/hooks";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import getSocket from "../../../socket";
-import Cookies from "js-cookie";
-import { useState } from "react";
+import { useGetNotificationCountQuery } from "../../../redux/api/notificationApi";
 const { Header } = Layout;
 
 export default function HeaderContainer({ collapsed, setCollapsed }) {
-  const token = Cookies.get("adminAccessToken");
   const user = useAppSelector(selectUser);
-  const socket = getSocket(token);
-  const [count, setCount] = useState(0);
   const { data } = useGetProfileQuery("", { skip: !user });
   const admin = data?.data;
+  const { data: notificationRes } = useGetNotificationCountQuery("");
+  const notifications = notificationRes?.data;
 
   const pathname = usePathname();
   const navbarTitle = pathname.split("/admin")[1].split("/")[1];
-
-  useEffect(() => {
-    if (!token) return;
-    // Request notification count when the socket connects
-    setTimeout(() => {
-      socket.emit("get-notification-count", user?.id);
-    }, 400);
-
-    socket.on(`notification-count::${user?.id}`, (count) => {
-      console.log("count", count);
-      setCount(count);
-    });
-
-    // Listen for admin's notifications to show toast
-    socket.on(`receive-notification::${user?.id}`, ({ notification }) => {
-      toast.info(notification.title);
-    });
-
-    return () => {
-      socket.off(`notification-count::${user?.id}`);
-      socket.off(`receive-notification::${user?.id}`);
-    };
-  }, [token]);
 
   return (
     <Header
@@ -85,7 +57,7 @@ export default function HeaderContainer({ collapsed, setCollapsed }) {
         <Link href="/admin/notification" className="!leading-none relative">
           {/* Notification dot indicator */}
           <div className="bg-[#FE5858] absolute -top-1.5 -right-1 size-3 rounded-full text-white flex items-center justify-center p-[9px]">
-            <span className="text-xs">{count}</span>
+            <span className="text-xs">{notifications || 0}</span>
           </div>
 
           <Bell fill="#1C1B1F" stroke="#1C1B1F" size={25} />

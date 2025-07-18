@@ -6,18 +6,16 @@ import {
   useGetSingleReportQuery,
   useUpdateReportStatusMutation,
 } from "../../../redux/api/reportApi";
-import {
-  defaultCoverImage,
-  defaultProfileImg,
-} from "../../../constant/global.constant";
 import Spinner from "../../../components/spinner/Spinner";
 import { format } from "date-fns";
 import { Radio } from "antd";
 import { useState } from "react";
 import handleMutation from "../../../utils/handleMutation";
+import { defaultCoverImg, defaultProfileImg } from "../../../data/global.data";
 
 export default function SingleReportDetails({ id }) {
-  const [updateReportStatus] = useUpdateReportStatusMutation();
+  const [updateReportStatus, { isLoading: isUpdating }] =
+    useUpdateReportStatusMutation();
   const { data, isLoading } = useGetSingleReportQuery(id);
   const report = data?.data;
   const [status, setStatus] = useState(report?.status || "pending");
@@ -38,7 +36,7 @@ export default function SingleReportDetails({ id }) {
       <div className="xl:col-span-1 border border-primary-black rounded-lg p-3 bg-light-red h-fit">
         <div className="relative flex items-center flex-col">
           <Image
-            src={report?.reporter?.cover_image || defaultCoverImage}
+            src={report?.reporter?.cover_image || defaultCoverImg}
             className="rounded-lg"
             width={1000}
             height={1000}
@@ -87,10 +85,13 @@ export default function SingleReportDetails({ id }) {
         </div>
         <div className="mt-4">
           <Button
+            disabled={isUpdating}
             onClick={handleUpdateStatus}
-            className="w-full !bg-primary-black !text-white !font-semibold !text-base !py-6 !rounded-lg !border-none"
+            className="w-full !bg-primary-black !text-white !font-semibold !text-base disabled:opacity-60 !py-6 !rounded-lg !border-none"
           >
-            {status === "user_blocked"
+            {isUpdating
+              ? "Updating..."
+              : status === "user_blocked"
               ? "Block user"
               : status === "post_removed"
               ? "Remove post"

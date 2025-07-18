@@ -3,17 +3,18 @@ import { Pagination } from "antd";
 import Image from "next/image";
 import PostCard from "./PostCard";
 import { useGetSingleUserQuery } from "../../../redux/api/userApi";
-import { defaultProfileImg } from "../../../constant/global.constant";
 import { format } from "date-fns";
 import Spinner from "../../../components/spinner/Spinner";
 import ErrorMessage from "../../../components/ErrorMessage/ShowError";
 import { useGetAllPostsQuery } from "../../../redux/api/postApi";
 import { useState } from "react";
+import { defaultCoverImg, defaultProfileImg } from "../../../data/global.data";
 
 export default function SingleAccountDetails({ id }) {
   const { data, isLoading, error } = useGetSingleUserQuery(id);
   const [page, setPage] = useState(1);
   const user = data?.data;
+  console.log("data", data);
   const limit = 2;
 
   // fetch posts
@@ -49,10 +50,7 @@ export default function SingleAccountDetails({ id }) {
         <div className="lg:col-span-1 border border-primary-black rounded-lg p-3 bg-light-red h-fit">
           <div className="relative flex items-center flex-col">
             <Image
-              src={
-                user?.cover_image ||
-                "https://worldbirds.com/wp-content/uploads/2020/07/color5.webp"
-              }
+              src={user?.cover_image || defaultCoverImg}
               className="rounded-lg"
               width={1000}
               height={1000}

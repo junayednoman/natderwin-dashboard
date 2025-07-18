@@ -19,7 +19,6 @@ import {
   useGetAllCategoriesQuery,
 } from "../../../../redux/api/categoryApi";
 import { format } from "date-fns";
-import { toast } from "react-toastify";
 import { debounce } from "lodash";
 import handleMutation from "../../../../utils/handleMutation";
 
@@ -30,8 +29,8 @@ export default function CategoryDetails() {
   const [open, setOpen] = useState(false);
   const [deleteCategory] = useDeleteCategoryMutation();
 
-  const { data, isLoading } = useGetAllCategoriesQuery({
-    searchText,
+  const { data, isFetching } = useGetAllCategoriesQuery({
+    searchTerm: searchText,
   });
   const categories = data?.data;
 
@@ -174,7 +173,7 @@ export default function CategoryDetails() {
           </div>
 
           <Table
-            loading={isLoading}
+            loading={isFetching}
             style={{ overflowX: "auto" }}
             columns={columns}
             dataSource={categories}

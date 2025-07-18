@@ -15,19 +15,9 @@ import Link from "next/link";
 import CustomConfirm from "../../../components/CustomConfirm/CustomConfirm";
 import { useGetAllUsersQuery } from "../../../redux/api/userApi";
 
-// Dummy Data
-const data = Array.from({ length: 15 }).map((_, inx) => ({
-  key: inx + 1,
-  name: "Justina",
-  userImg: userImage,
-  email: "justina@gmail.com",
-  contact: "+1234567890",
-  date: "11 oct 24, 11:10 PM",
-  type: "Subscriber",
-}));
-
 export default function AccountDetails() {
   const [searchText, setSearchText] = useState("");
+  console.log("searchText", searchText);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 3;
   const params = {

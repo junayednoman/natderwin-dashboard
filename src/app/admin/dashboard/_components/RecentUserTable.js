@@ -9,7 +9,6 @@ import userImage from "../../../../assets/images/user-avatar-lg.png";
 import { Tooltip } from "antd";
 import { Tag } from "antd";
 import { useState } from "react";
-import ProfileModal from "../../../../components/SharedModals/ProfileModal";
 import {
   useBlockUserMutation,
   useGetAllUsersQuery,
@@ -23,8 +22,6 @@ import Link from "next/link";
 
 const RecentUserTable = ({ title, limit = 10 }) => {
   const [searchText, setSearchText] = useState("");
-  const [showProfileModal, setShowProfileModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [blockUser] = useBlockUserMutation();
 
@@ -44,11 +41,7 @@ const RecentUserTable = ({ title, limit = 10 }) => {
   const { data, isLoading } = useGetAllUsersQuery(params);
   const users = data?.data?.data;
   const total = data?.data?.meta?.total;
-
-  const handleShowProfileModal = (id) => {
-    setSelectedUser(id);
-    setShowProfileModal(true);
-  };
+  console.log('users', users);
 
   const handleBLockUser = (id) => {
     handleMutation(id, blockUser, "Blocking user...");
@@ -180,13 +173,6 @@ const RecentUserTable = ({ title, limit = 10 }) => {
         dataSource={users}
         pagination={{ pageSize: limit, total }}
         className="mt-4"
-      />
-
-      {/* Profile Modal */}
-      <ProfileModal
-        id={selectedUser}
-        open={showProfileModal}
-        setOpen={setShowProfileModal}
       />
     </ConfigProvider>
   );

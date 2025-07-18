@@ -11,3 +11,6 @@ export const years = [
   { value: "2034", label: "2034" },
   { value: "2035", label: "2035" },
 ]
+
+export const defaultCoverImg = "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
+export const defaultProfileImg = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";

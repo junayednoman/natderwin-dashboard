@@ -1,4 +1,4 @@
-import { defaultProfileImg } from "../../constant/global.constant";
+import { defaultProfileImg } from "../../data/global.data";
 import { MapPin } from "lucide-react";
 export default function MiniProfile({ data }) {
   return (

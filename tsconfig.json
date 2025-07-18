@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/hooks/useSocket.jsx", "src/app/admin/notification/_components/NotificationContainer.js"  ],
   "exclude": [
     "node_modules"
   ]
