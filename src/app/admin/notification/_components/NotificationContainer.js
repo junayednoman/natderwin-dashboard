@@ -52,18 +52,6 @@ export default function NotificationContainer() {
     refetch();
   };
 
-  const handleCreateNotification = () => {
-    const payload = {
-      title: "New Notification",
-      // type: "friend_activity" | "post_engagement",
-      body: "This is a new notification",
-      link: "#",
-      receiver: user.id,
-      is_admin_receiver: true,
-    };
-    socket.emit("send-notification", payload);
-  };
-
   return isLoading ? (
     <Spinner className="py-56" />
   ) : error ? (
@@ -76,12 +64,6 @@ export default function NotificationContainer() {
     <div className="mx-auto mb-10 bg-primary-red rounded-lg p-6 px-8 text-white">
       <section className="flex-center-between mb-5">
         <h4 className="text-3xl font-semibold">Notifications</h4>
-        <button
-          onClick={handleCreateNotification}
-          className="text-sm = border  text-white rounded-lg py-3 px-8 w-auto font-semibold"
-        >
-          Create new
-        </button>
         <button
           onClick={handleReadAll}
           className="text-sm = border  text-white rounded-lg py-3 px-8 w-auto font-semibold"
