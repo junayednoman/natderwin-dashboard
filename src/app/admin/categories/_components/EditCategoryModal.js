@@ -7,7 +7,6 @@ import USelect from "../../../../components/Form/USelect";
 import { useState } from "react";
 import Image from "next/image";
 import { CircleX } from "lucide-react";
-import CustomConfirm from "../../../../components/CustomConfirm/CustomConfirm";
 import {
   useGetSingleCategoryQuery,
   useUpdateCategoryMutation,
@@ -20,11 +19,13 @@ export default function EditCategoryModal({ open, setOpen, id }) {
   const [image, setImage] = useState(
     "https://assets.technologynetworks.com/production/dynamic/images/content/379495/parrots-have-a-unique-voice-print-379495-960x540.jpg?cb=12495383"
   );
+  console.log("image", image);
   const [updateCategory, { isLoading: isUpdating }] =
     useUpdateCategoryMutation();
   const { data, isLoading, error } = useGetSingleCategoryQuery(id, {
     skip: !open || !id,
   });
+
   const category = data?.data;
 
   // handle image uploading
@@ -42,7 +43,7 @@ export default function EditCategoryModal({ open, setOpen, id }) {
     // Append the text data to FormData
     payload.append("payload", JSON.stringify(data));
 
-    if (image && typeof image === "object") payload.append("image", image);
+    if (image) payload.append("image", image);
 
     handleMutation(
       { id, payload },

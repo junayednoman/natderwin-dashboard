@@ -33,7 +33,7 @@ export default function CategoryDetails() {
     searchTerm: searchText,
   });
   const categories = data?.data;
-
+  console.log("categories, ", categories);
   // Block user handler
   const handleDeleteCategory = (id) => {
     handleMutation(id, deleteCategory, "Deleting category...");
