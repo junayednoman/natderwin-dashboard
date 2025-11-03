@@ -38,6 +38,7 @@ export default function LoginForm() {
 
   const onLoginSubmit = async (data) => {
     data.is_remember = remember;
+    data.fcm_token = "N/A"
     handleMutation(data, login, "Logging in...", onLoginSuccess);
   };
 
