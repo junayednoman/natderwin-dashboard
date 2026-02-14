@@ -1,7 +1,7 @@
 "use client";
 import "./Sidebar.css";
-import logo from "../../../assets/logos/logo.png";
-import icon from "../../../assets/logos/icon.svg";
+import logo from "../../../assets/logos/logo.jpg";
+// import icon from "../../../assets/logos/icon.svg";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { ScrollText } from "lucide-react";
@@ -131,7 +131,7 @@ const SidebarContainer = ({ collapsed }) => {
           {collapsed ? (
             // Logo small
             <Image
-              src={icon}
+              src={logo}
               alt="Logo Of Before After Story"
               className="h-14 w-auto"
             />
