@@ -13,7 +13,7 @@ export default function CreatePointModal({ open, setOpen }) {
   const onSubmit = (data) => {
     data.price = Number(data.price);
     data.stars = Number(data.stars);
-    data.discount_rate = Number(data.discount_rate);
+    data.discount_rate = Number(data.discount_rate || 0);
     handleMutation(data, createPlan, "Creating point plan...", () => {
       setOpen(false);
     });

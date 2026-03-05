@@ -29,7 +29,7 @@ export default function CreateCategoryModal({ open, setOpen }) {
       },
       () => {
         setOpen(false);
-      }
+      },
     );
   };
   return (
@@ -52,7 +52,7 @@ export default function CreateCategoryModal({ open, setOpen }) {
             <UInput
               name="name"
               label="Category Name"
-              placeholder="Enter subscription plan name"
+              placeholder="Enter category name"
             />
             <USelect
               name={"status"}
